@@ -26,11 +26,38 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="explore"
+        name="new"
         options={{
-          title: 'Explore',
+          title: 'New',
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'code-slash' : 'code-slash-outline'} color={color} />
+            <TabBarIcon name={focused ? 'star' : 'star-outline'} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="radio"
+        options={{
+          title: 'Radio',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'radio' : 'radio-outline'} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="search"
+        options={{
+          title: 'Search',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'search' : 'search-outline'} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="library"
+        options={{
+          title: 'Library',
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon name={focused ? 'library' : 'library-outline'} color={color} />
           ),
         }}
       />
