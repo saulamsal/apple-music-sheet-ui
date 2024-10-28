@@ -1,50 +1,71 @@
-# Welcome to your Expo app 👋
+# Apple Music Sheet UI Demo with Expo
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This project demonstrates an implementation of the Apple Music player UI in React Native using Expo, with a focus on replicating the smooth sheet transitions and scaling animations.
 
-## Get started
+## Features
 
-1. Install dependencies
+- 🎵 Full-screen music player modal with gesture controls
+- 🔄 Smooth scaling animations of the root content
+- 👆 Interactive pan gesture handling
+- 📱 iOS-style sheet presentation
+- 🎨 Dynamic border radius animations
+
+## Tech Stack
+
+- [Expo](https://expo.dev) - React Native development platform
+- [Expo Router](https://docs.expo.dev/router/introduction) - File-based routing
+- [React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/) - Smooth animations
+- [React Native Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/) - Native-driven gesture handling
+
+## Getting Started
+
+1. Install dependencies:
 
    ```bash
    npm install
    ```
 
-2. Start the app
+2. Start the development server:
 
    ```bash
-    npx expo start
+   npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+3. Open in iOS Simulator or Android Emulator:
+   - Press `i` for iOS
+   - Press `a` for Android
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Implementation Details
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+The project showcases several key features of modern React Native development:
 
-## Get a fresh project
+- Shared element transitions
+- Gesture-based interactions
+- Context-based animation state management
+- Worklet-based animations for optimal performance
 
-When you're ready, run:
+## Project Structure
 
-```bash
-npm run reset-project
+```
+app/
+├── contexts/
+│   └── RootScaleContext.tsx    # Scale animation context
+├── components/
+│   └── BottomSheet/
+│       ├── ExpandedPlayer.tsx  # Full-screen player
+│       └── MiniPlayer.tsx      # Minimized player
+└── music/
+    └── [id].tsx               # Music player screen
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Contributing
 
-## Learn more
+Feel free to contribute to this project by:
 
-To learn more about developing your project with Expo, look at the following resources:
+1. Forking the repository
+2. Creating a feature branch
+3. Submitting a pull request
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## License
 
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+This project is open source and available under the MIT License.
