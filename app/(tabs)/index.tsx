@@ -1,4 +1,4 @@
-import { Text, Image, StyleSheet, Platform, Pressable, FlatList } from 'react-native';
+import { Text, Image, View, StyleSheet, Platform, Pressable, FlatList } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
@@ -18,7 +18,7 @@ interface Song {
 
 export default function HomeScreen() {
   const router = useRouter();
-  const [selectedSongId, setSelectedSongId] = useState(songs[0].id);
+  const [selectedSongId, setSelectedSongId] = useState<string | null>(null);
 
   const renderSongItem = ({ item }: { item: Song }) => (
     <Pressable
@@ -57,7 +57,8 @@ export default function HomeScreen() {
         headerImage={
           <ThemedView style={{
             flex: 1, width: '100%', height: '100%', position: 'absolute', top: 0, left: 0,
-            backgroundColor: '#f57a8a'
+            backgroundColor: '#f57a8a',
+            alignItems: 'center',
           }}>
             <Image
               source={{
@@ -65,7 +66,33 @@ export default function HomeScreen() {
               }}
               style={styles.reactLogo}
             />
-            <Text style={{ fontSize: 22, letterSpacing: -0.5, position: 'absolute', bottom: 16, alignSelf: 'center' }}>Built with Expo</Text>
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', gap: 10 }}>
+              <View style={styles.headerButtons}>
+                <Pressable
+                  style={styles.headerButton}
+                  onPress={() => {
+                    setSelectedSongId(songs[0].id);
+                    router.push(`/music/${songs[0].id}`);
+                  }}
+                >
+                  <Ionicons name="play-circle" size={24} color="#fff" />
+                  <Text style={styles.headerButtonText}>Play</Text>
+                </Pressable>
+                <Pressable
+                  style={styles.headerButton}
+                  onPress={() => {
+                    const randomSong = songs[Math.floor(Math.random() * songs.length)];
+                    setSelectedSongId(randomSong.id);
+                    router.push(`/music/${randomSong.id}`);
+                  }}
+                >
+                  <Ionicons name="shuffle" size={24} color="#fff" />
+                  <Text style={styles.headerButtonText}>Shuffle</Text>
+                </Pressable>
+              </View>
+
+            </View>
+
           </ThemedView>
         }
         contentContainerStyle={styles.scrollView}
@@ -92,10 +119,12 @@ export default function HomeScreen() {
         />
       </ParallaxScrollView>
 
-      <MiniPlayer
-        song={selectedSong}
-        onPress={() => router.push(`/music/${selectedSong.id}`)}
-      />
+      {selectedSongId && (
+        <MiniPlayer
+          song={selectedSong}
+          onPress={() => router.push(`/music/${selectedSong.id}`)}
+        />
+      )}
     </ThemedView>
   );
 }
@@ -119,10 +148,9 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   reactLogo: {
-    height: 100,
-    width: 290,
+    height: 70,
+    width: 200,
     bottom: 0,
-    right: -50,
     top: 100,
   },
   songItem: {
@@ -154,5 +182,31 @@ const styles = StyleSheet.create({
   },
   moreButton: {
     padding: 8,
+  },
+  headerButtons: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 20,
+    position: 'absolute',
+    bottom: 10,
+    // width: '100%',
+
+    marginHorizontal: 20,
+  },
+  headerButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.1)',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+    gap: 8,
+    flex: 1,
+    justifyContent: 'center',
+  },
+  headerButtonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
   },
 });
