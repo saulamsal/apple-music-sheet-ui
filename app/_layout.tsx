@@ -4,6 +4,7 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
+import { OverlayProvider } from '@/app/components/Overlay/OverlayProvider';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
 
@@ -28,21 +29,22 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="music/[id]"
-          options={{
-            presentation: 'transparentModal',
-            headerShown: false,
-            // animation: 'slide_from_bottom',
-            contentStyle: {
-              backgroundColor: 'transparent',
-            },
-          }}
-        />
-        <Stack.Screen name="+not-found" />
-      </Stack>
+      <OverlayProvider>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="music/[id]"
+            options={{
+              presentation: 'transparentModal',
+              headerShown: false,
+              contentStyle: {
+                backgroundColor: 'transparent',
+              },
+            }}
+          />
+          <Stack.Screen name="+not-found" />
+        </Stack>
+      </OverlayProvider>
     </ThemeProvider>
   );
 }
