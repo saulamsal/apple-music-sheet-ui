@@ -1,61 +1,75 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { StyleSheet, Animated, PanResponder, View } from 'react-native';
-import { useRef, useEffect } from 'react';
+import { StyleSheet, Dimensions } from 'react-native';
+import { useEffect, useCallback } from 'react';
 import { ThemedView } from '@/components/ThemedView';
 import { ExpandedPlayer } from '@/components/BottomSheet/ExpandedPlayer';
-import { useOverlayView } from '@/app/hooks/useOverlayView';
+import { useRootScale } from '@/app/contexts/RootScaleContext';
+import Animated, {
+    useSharedValue,
+    useAnimatedStyle,
+    withSpring,
+    runOnJS,
+} from 'react-native-reanimated';
+import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 
 const SONG = { id: '1', title: 'vampire', artist: 'Olivia Rodrigo', year: 2023 };
-
-const Overlay = () => (
-    <View style={styles.overlay} />
-);
+const SCALE_FACTOR = 0.9;
 
 export default function MusicScreen() {
     const router = useRouter();
-    const pan = useRef(new Animated.ValueXY()).current;
-    const { show, hide } = useOverlayView();
+    const { setScale } = useRootScale();
+    const translateY = useSharedValue(0);
+
+    const goBack = useCallback(() => {
+        router.back();
+    }, [router]);
 
     useEffect(() => {
-        // Show overlay when component mounts
-        show(<Overlay />);
-
-        // Hide overlay when component unmounts
-        return () => hide();
+        setScale(SCALE_FACTOR);
+        return () => setScale(1);
     }, []);
 
-    const panResponder = PanResponder.create({
-        onStartShouldSetPanResponder: () => true,
-        onPanResponderMove: (_, gesture) => {
-            if (gesture.dy > 0) {
-                pan.y.setValue(gesture.dy);
+    const gesture = Gesture.Pan()
+        .onStart(() => {
+            'worklet';
+            translateY.value = 0;
+        })
+        .onUpdate((event) => {
+            'worklet';
+            if (event.translationY > 0) {
+                translateY.value = event.translationY;
+                // Interpolate scale based on translation
+                const progress = Math.min(event.translationY / 300, 1);
+                const newScale = SCALE_FACTOR + (progress * (1 - SCALE_FACTOR));
+                setScale(newScale);
             }
-        },
-        onPanResponderRelease: (_, gesture) => {
-            if (gesture.dy > 100) {
-                hide(); // Hide overlay before going back
-                router.back();
+        })
+        .onEnd((event) => {
+            'worklet';
+            if (event.translationY > 100) {
+                translateY.value = withSpring(500, {}, (finished) => {
+                    if (finished) {
+                        runOnJS(goBack)();
+                    }
+                });
+                setScale(1);
             } else {
-                Animated.spring(pan.y, {
-                    toValue: 0,
-                    useNativeDriver: true,
-                }).start();
+                translateY.value = withSpring(0);
+                setScale(SCALE_FACTOR);
             }
-        },
-    });
+        });
+
+    const animatedStyle = useAnimatedStyle(() => ({
+        transform: [{ translateY: translateY.value }],
+    }));
 
     return (
         <ThemedView style={styles.container}>
-            <Animated.View
-                style={[
-                    styles.modalContent,
-                    {
-                        transform: [{ translateY: pan.y }],
-                    },
-                ]}
-                {...panResponder.panHandlers}>
-                <ExpandedPlayer song={SONG} />
-            </Animated.View>
+            <GestureDetector gesture={gesture}>
+                <Animated.View style={[styles.modalContent, animatedStyle]}>
+                    <ExpandedPlayer song={SONG} />
+                </Animated.View>
+            </GestureDetector>
         </ThemedView>
     );
 }
@@ -68,9 +82,5 @@ const styles = StyleSheet.create({
     modalContent: {
         flex: 1,
         backgroundColor: 'transparent',
-    },
-    overlay: {
-        ...StyleSheet.absoluteFillObject,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent black overlay
     },
 });

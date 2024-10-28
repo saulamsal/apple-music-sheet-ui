@@ -3,13 +3,45 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-import 'react-native-reanimated';
-import { OverlayProvider } from '@/app/components/Overlay/OverlayProvider';
+import { StyleSheet, useColorScheme } from 'react-native';
+import { RootScaleProvider } from '@/app/contexts/RootScaleContext';
+import { useRootScale } from '@/app/contexts/RootScaleContext';
+import Animated, { useAnimatedStyle } from 'react-native-reanimated';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-import { useColorScheme } from '@/hooks/useColorScheme';
+function AnimatedStack() {
+  const { scale } = useRootScale();
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { scale: scale.value },
+        {
+          translateY: (1 - scale.value) * -200, // Adjust this multiplier to control the upward movement
+        },
+      ],
+    };
+  });
+
+  return (
+    <Animated.View style={[styles.stackContainer, animatedStyle]}>
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="music/[id]"
+          options={{
+            presentation: 'transparentModal',
+            headerShown: false,
+            contentStyle: {
+              backgroundColor: 'transparent',
+            },
+          }}
+        />
+        <Stack.Screen name="+not-found" />
+      </Stack>
+    </Animated.View>
+  );
+}
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -28,23 +60,23 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <OverlayProvider>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen
-            name="music/[id]"
-            options={{
-              presentation: 'transparentModal',
-              headerShown: false,
-              contentStyle: {
-                backgroundColor: 'transparent',
-              },
-            }}
-          />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-      </OverlayProvider>
-    </ThemeProvider>
+    <GestureHandlerRootView style={styles.container}>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <RootScaleProvider>
+          <AnimatedStack />
+        </RootScaleProvider>
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  stackContainer: {
+    flex: 1,
+    overflow: 'hidden',
+    borderRadius: 10,
+  },
+});
