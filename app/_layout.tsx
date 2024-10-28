@@ -20,7 +20,8 @@ function AnimatedStack() {
           translateY: (1 - scale.value) * -150,
         },
       ],
-      borderRadius: 40 * (1 - scale.value) * 5,
+      // borderRadius: 40 * (1 - scale.value) * 5,
+
     };
   });
 
@@ -78,6 +79,7 @@ const styles = StyleSheet.create({
   stackContainer: {
     flex: 1,
     overflow: 'hidden',
+    borderRadius: 50,
     // Base border radius removed since we're animating it
   },
 });
