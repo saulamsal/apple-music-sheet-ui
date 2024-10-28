@@ -1,13 +1,22 @@
-import { StyleSheet, Pressable, Image } from 'react-native';
+import { StyleSheet, Pressable, Image, Platform } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Ionicons } from '@expo/vector-icons';
 import { Audio } from 'expo-av';
 import { useState, useEffect } from 'react';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export function MiniPlayer({ onPress, song, isPlaying, onPlayPause }: MiniPlayerProps) {
+    const insets = useSafeAreaInsets();
+
+    // Calculate bottom position considering tab bar height
+    const bottomPosition = Platform.OS === 'ios' ? 90 : 60; // Adjust these values based on your tab bar height
+
     return (
-        <Pressable onPress={onPress} style={styles.container}>
+        <Pressable onPress={onPress} style={[
+            styles.container,
+            { bottom: bottomPosition }
+        ]}>
             <ThemedView style={styles.content}>
                 <Image
                     source={{ uri: song.artwork }}
@@ -32,11 +41,10 @@ export function MiniPlayer({ onPress, song, isPlaying, onPlayPause }: MiniPlayer
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
-        bottom: 10, // Leave space for tab bar
         left: 0,
         right: 0,
         height: 65,
-
+        zIndex: 1000, // Make sure it's above other content
     },
     content: {
         flexDirection: 'row',

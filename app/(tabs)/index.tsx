@@ -6,7 +6,6 @@ import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { MiniPlayer } from '@/components/BottomSheet/MiniPlayer';
 import { songs } from '@/app/data/songs.json';
 import { useAudio } from '@/app/context/AudioContext';
 
@@ -129,15 +128,6 @@ export default function HomeScreen() {
           scrollEnabled={false}
         />
       </ParallaxScrollView>
-
-      {currentSong && (
-        <MiniPlayer
-          song={currentSong}
-          isPlaying={isPlaying}
-          onPlayPause={togglePlayPause}
-          onPress={() => router.push(`/music/${currentSong.id}`)}
-        />
-      )}
     </ThemedView>
   );
 }

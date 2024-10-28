@@ -3,16 +3,21 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-import { StyleSheet, useColorScheme } from 'react-native';
+import { StyleSheet, useColorScheme, View } from 'react-native';
 import { RootScaleProvider } from '@/app/contexts/RootScaleContext';
 import { useRootScale } from '@/app/contexts/RootScaleContext';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { OverlayProvider } from '@/app/components/Overlay/OverlayProvider';
 import { AudioProvider } from '@/app/context/AudioContext';
+import { MiniPlayer } from '@/components/BottomSheet/MiniPlayer';
+import { useRouter } from 'expo-router';
+import { useAudio } from '@/app/context/AudioContext';
 
 function AnimatedStack() {
   const { scale } = useRootScale();
+  const router = useRouter();
+  const { currentSong, isPlaying, togglePlayPause } = useAudio();
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
@@ -22,28 +27,37 @@ function AnimatedStack() {
           translateY: (1 - scale.value) * -150,
         },
       ],
-      // borderRadius: 40 * (1 - scale.value) * 5,
-
     };
   });
 
   return (
-    <Animated.View style={[styles.stackContainer, animatedStyle]}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="music/[id]"
-          options={{
-            presentation: 'transparentModal',
-            headerShown: false,
-            contentStyle: {
-              backgroundColor: 'transparent',
-            },
-          }}
+    <View style={{ flex: 1 }}>
+      <Animated.View style={[styles.stackContainer, animatedStyle]}>
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="music/[id]"
+            options={{
+              presentation: 'transparentModal',
+              headerShown: false,
+              contentStyle: {
+                backgroundColor: 'transparent',
+              },
+            }}
+          />
+          <Stack.Screen name="+not-found" />
+        </Stack>
+      </Animated.View>
+
+      {currentSong && (
+        <MiniPlayer
+          song={currentSong}
+          isPlaying={isPlaying}
+          onPlayPause={togglePlayPause}
+          onPress={() => router.push(`/music/${currentSong.id}`)}
         />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </Animated.View>
+      )}
+    </View>
   );
 }
 
@@ -86,6 +100,5 @@ const styles = StyleSheet.create({
     flex: 1,
     overflow: 'hidden',
     borderRadius: 50,
-    // Base border radius removed since we're animating it
   },
 });
