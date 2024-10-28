@@ -24,7 +24,6 @@ export default function HomeScreen() {
     <Pressable
       onPress={() => {
         setSelectedSongId(item.id);
-        router.push(`/music/${item.id}`);
       }}
       style={styles.songItem}
     >
@@ -76,7 +75,6 @@ export default function HomeScreen() {
                   style={styles.headerButton}
                   onPress={() => {
                     setSelectedSongId(songs[0].id);
-                    router.push(`/music/${songs[0].id}`);
                   }}
                 >
                   <Ionicons name="play-circle" size={24} color="#fff" />
@@ -87,7 +85,6 @@ export default function HomeScreen() {
                   onPress={() => {
                     const randomSong = songs[Math.floor(Math.random() * songs.length)];
                     setSelectedSongId(randomSong.id);
-                    router.push(`/music/${randomSong.id}`);
                   }}
                 >
                   <Ionicons name="shuffle" size={24} color="#fff" />
