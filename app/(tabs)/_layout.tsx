@@ -20,8 +20,8 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'home' : 'home-outline'} color={color} />
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="home-sharp" color={color} />
           ),
         }}
       />
@@ -29,8 +29,8 @@ export default function TabLayout() {
         name="new"
         options={{
           title: 'New',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'star' : 'star-outline'} color={color} />
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="apps-sharp" color={color} />
           ),
         }}
       />
@@ -38,17 +38,8 @@ export default function TabLayout() {
         name="radio"
         options={{
           title: 'Radio',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'radio' : 'radio-outline'} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="search"
-        options={{
-          title: 'Search',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'search' : 'search-outline'} color={color} />
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="radio" color={color} />
           ),
         }}
       />
@@ -56,8 +47,17 @@ export default function TabLayout() {
         name="library"
         options={{
           title: 'Library',
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon name={focused ? 'library' : 'library-outline'} color={color} />
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="musical-notes" color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="search"
+        options={{
+          title: 'Search',
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="search" color={color} />
           ),
         }}
       />
