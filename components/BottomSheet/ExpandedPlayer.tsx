@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
         padding: 20,
         paddingTop: 30,
         backgroundColor: 'transparent',
+        justifyContent: 'space-between',
     },
     artworkContainer: {
         shadowColor: '#000',
@@ -120,6 +121,8 @@ const styles = StyleSheet.create({
     controls: {
         width: '100%',
         backgroundColor: 'transparent',
+        flex: 1,
+        justifyContent: 'space-between',
     },
     titleContainer: {
         marginBottom: 20,
@@ -178,7 +181,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 50,
         backgroundColor: 'transparent',
-        marginBottom: 30,
     },
     button: {
         padding: 10,
@@ -191,6 +193,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 10,
         paddingHorizontal: 10,
+        marginBottom: 20,
     },
     volumeBar: {
         flex: 1,
