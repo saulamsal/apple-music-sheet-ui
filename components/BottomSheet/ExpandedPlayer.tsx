@@ -11,6 +11,7 @@ import {
 
 
 export function ExpandedPlayer({ song }: { song: any }) {
+
     const insets = useSafeAreaInsets();
     return (
         <LinearGradient
@@ -22,7 +23,7 @@ export function ExpandedPlayer({ song }: { song: any }) {
             <ThemedView style={styles.container}>
                 <ThemedView style={styles.artworkContainer}>
                     <Image
-                        source={{ uri: 'https://cdn.theatlantic.com/thumbor/FNDCOksdZgDXO7bzQ3MCXzj3W30=/732x0:2419x1687/1080x1080/media/img/mt/2021/05/SOUR_FINAL/original.jpg' }}
+                        source={{ uri: song.artwork }}
                         style={styles.artwork}
                     />
                 </ThemedView>

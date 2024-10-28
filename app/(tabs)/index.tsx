@@ -7,7 +7,10 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { MiniPlayer } from '@/components/BottomSheet/MiniPlayer';
 
-const SONG = { id: '1', title: 'vampire', artist: 'Olivia Rodrigo', year: 2023 };
+const SONG = {
+  id: '1', title: 'vampire', artist: 'Olivia Rodrigo', year: 2023,
+  artwork: 'https://cdn.theatlantic.com/thumbor/FNDCOksdZgDXO7bzQ3MCXzj3W30=/732x0:2419x1687/1080x1080/media/img/mt/2021/05/SOUR_FINAL/original.jpg'
+};
 
 export default function HomeScreen() {
   const router = useRouter();
