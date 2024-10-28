@@ -16,7 +16,7 @@ export function CategoryCard({ title, backgroundColor, imageUrl, size = 'small' 
                 <View
                     style={{
                         width: '100%',
-                        aspectRatio: 1,
+                        aspectRatio: 1.5,
                         backgroundColor,
                         borderRadius: 10,
                         overflow: 'hidden',
