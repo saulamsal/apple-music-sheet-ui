@@ -8,14 +8,34 @@ import {
     useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 
+function darkenColor(color: string) {
+    if (color === '#000000' || color === null) {
+        return '#000000';
+    }
+
+    const rgb = color.match(/\d+/g);
+    if (!rgb || rgb.length < 3) {
+        return '#000000';
+    }
+
+    const r = Math.floor(parseInt(rgb[0]) * 0.5);
+    const g = Math.floor(parseInt(rgb[1]) * 0.5);
+    const b = Math.floor(parseInt(rgb[2]) * 0.5);
+    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+}
+
+
 
 
 export function ExpandedPlayer({ song }: { song: any }) {
 
     const insets = useSafeAreaInsets();
+
+    const colorToUse = song.artwork_bg_color || "#000000";
+    const colors = [colorToUse, darkenColor(colorToUse)];
     return (
         <LinearGradient
-            colors={['#948bc9', '#6d659c']}
+            colors={colors}
             style={[styles.rootContainer, { paddingTop: insets.top }]}
         >
             <ThemedView style={styles.dragHandle} />
