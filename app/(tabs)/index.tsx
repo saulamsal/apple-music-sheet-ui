@@ -8,6 +8,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { MiniPlayer } from '@/components/BottomSheet/MiniPlayer';
 import { songs } from '@/app/data/songs.json';
+import { useAudio } from '@/app/context/AudioContext';
 
 interface Song {
   id: string;
@@ -18,13 +19,13 @@ interface Song {
 
 export default function HomeScreen() {
   const router = useRouter();
-  const [selectedSongId, setSelectedSongId] = useState<string | null>(null);
+  const { currentSong, playSound, isPlaying, togglePlayPause } = useAudio();
 
   const renderSongItem = ({ item }: { item: Song }) => (
     <Pressable
       onPress={() => {
-        setSelectedSongId(item.id);
-        router.push(`/music/${item.id}`)
+        playSound(item);
+        router.push(`/music/${item.id}`);
       }}
       style={styles.songItem}
     >
@@ -34,7 +35,7 @@ export default function HomeScreen() {
           {item.title}
         </ThemedText>
         <ThemedView style={styles.artistRow}>
-          {item.id === selectedSongId && (
+          {item.id === currentSong?.id && (
             <Ionicons name="musical-note" size={16} color="#FA2D48" />
           )}
           <ThemedText type="subtitle" numberOfLines={1} style={styles.songArtist}>
@@ -47,8 +48,6 @@ export default function HomeScreen() {
       </Pressable>
     </Pressable>
   );
-
-  const selectedSong = songs.find(s => s.id === selectedSongId) || songs[0];
 
   return (
     <ThemedView style={styles.container}>
@@ -131,10 +130,12 @@ export default function HomeScreen() {
         />
       </ParallaxScrollView>
 
-      {selectedSongId && (
+      {currentSong && (
         <MiniPlayer
-          song={selectedSong}
-          onPress={() => router.push(`/music/${selectedSong.id}`)}
+          song={currentSong}
+          isPlaying={isPlaying}
+          onPlayPause={togglePlayPause}
+          onPress={() => router.push(`/music/${currentSong.id}`)}
         />
       )}
     </ThemedView>

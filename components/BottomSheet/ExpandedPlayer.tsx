@@ -3,32 +3,30 @@ import { ThemedText } from '@/components/ThemedText';
 // import { ThemedView } from '@/components/ThemedView';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
+import { Audio } from 'expo-av';
+import { useEffect, useState, useCallback } from 'react';
+import { useAudio } from '@/app/context/AudioContext';
 const { width } = Dimensions.get('window');
 import {
     useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 
-function shadeColor(color, percent) {
+function shadeColor(color: string, percent: number): string {
+    const R = parseInt(color.substring(1, 3), 16);
+    const G = parseInt(color.substring(3, 5), 16);
+    const B = parseInt(color.substring(5, 7), 16);
 
-    var R = parseInt(color.substring(1, 3), 16);
-    var G = parseInt(color.substring(3, 5), 16);
-    var B = parseInt(color.substring(5, 7), 16);
+    let newR = Math.round((R * (100 + percent)) / 100);
+    let newG = Math.round((G * (100 + percent)) / 100);
+    let newB = Math.round((B * (100 + percent)) / 100);
 
-    R = parseInt(R * (100 + percent) / 100);
-    G = parseInt(G * (100 + percent) / 100);
-    B = parseInt(B * (100 + percent) / 100);
+    newR = newR < 255 ? newR : 255;
+    newG = newG < 255 ? newG : 255;
+    newB = newB < 255 ? newB : 255;
 
-    R = (R < 255) ? R : 255;
-    G = (G < 255) ? G : 255;
-    B = (B < 255) ? B : 255;
-
-    R = Math.round(R)
-    G = Math.round(G)
-    B = Math.round(B)
-
-    var RR = ((R.toString(16).length == 1) ? "0" + R.toString(16) : R.toString(16));
-    var GG = ((G.toString(16).length == 1) ? "0" + G.toString(16) : G.toString(16));
-    var BB = ((B.toString(16).length == 1) ? "0" + B.toString(16) : B.toString(16));
+    const RR = ((newR.toString(16).length === 1) ? "0" + newR.toString(16) : newR.toString(16));
+    const GG = ((newG.toString(16).length === 1) ? "0" + newG.toString(16) : newG.toString(16));
+    const BB = ((newB.toString(16).length === 1) ? "0" + newB.toString(16) : newB.toString(16));
 
     return "#" + RR + GG + BB;
 }
@@ -36,11 +34,39 @@ function shadeColor(color, percent) {
 
 
 export function ExpandedPlayer({ song }: { song: any }) {
-
+    const {
+        isPlaying,
+        position,
+        duration,
+        togglePlayPause,
+        sound
+    } = useAudio();
     const insets = useSafeAreaInsets();
 
     const colorToUse = song.artwork_bg_color || "#000000";
     const colors = [colorToUse, shadeColor(colorToUse, -50)];
+
+    const handleSkipForward = async () => {
+        if (sound) {
+            await sound.setPositionAsync(Math.min(duration, position + 10000));
+        }
+    };
+
+    const handleSkipBackward = async () => {
+        if (sound) {
+            await sound.setPositionAsync(Math.max(0, position - 10000));
+        }
+    };
+
+    const formatTime = (millis: number) => {
+        const minutes = Math.floor(millis / 60000);
+        const seconds = ((millis % 60000) / 1000).toFixed(0);
+        return `${minutes}:${Number(seconds) < 10 ? '0' : ''}${seconds}`;
+    };
+
+    const progress = duration > 0 ? (position / duration) * 100 : 0;
+
+    // Update the progress bar and time display in the JSX
     return (
         <LinearGradient
             colors={colors}
@@ -77,23 +103,32 @@ export function ExpandedPlayer({ song }: { song: any }) {
 
                     <ThemedView>
                         <ThemedView style={styles.progressBar}>
-                            <ThemedView style={styles.progress} />
+                            <ThemedView
+                                style={[
+                                    styles.progress,
+                                    { width: `${progress}%` }
+                                ]}
+                            />
                         </ThemedView>
 
                         <ThemedView style={styles.timeContainer}>
-                            <ThemedText style={styles.timeText}>0:09</ThemedText>
-                            <ThemedText style={styles.timeText}>-2:38</ThemedText>
+                            <ThemedText style={styles.timeText}>
+                                {formatTime(position)}
+                            </ThemedText>
+                            <ThemedText style={styles.timeText}>
+                                -{formatTime(Math.max(0, duration - position))}
+                            </ThemedText>
                         </ThemedView>
                     </ThemedView>
 
                     <ThemedView style={styles.buttonContainer}>
-                        <Pressable style={styles.button}>
+                        <Pressable style={styles.button} onPress={handleSkipBackward}>
                             <Ionicons name="play-skip-back" size={35} color="#fff" />
                         </Pressable>
-                        <Pressable style={[styles.button, styles.playButton]}>
-                            <Ionicons name="pause" size={45} color="#fff" />
+                        <Pressable style={[styles.button, styles.playButton]} onPress={togglePlayPause}>
+                            <Ionicons name={isPlaying ? "pause" : "play"} size={45} color="#fff" />
                         </Pressable>
-                        <Pressable style={styles.button}>
+                        <Pressable style={styles.button} onPress={handleSkipForward}>
                             <Ionicons name="play-skip-forward" size={35} color="#fff" />
                         </Pressable>
                     </ThemedView>

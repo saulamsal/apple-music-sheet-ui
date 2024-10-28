@@ -8,6 +8,8 @@ import { RootScaleProvider } from '@/app/contexts/RootScaleContext';
 import { useRootScale } from '@/app/contexts/RootScaleContext';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { OverlayProvider } from '@/app/components/Overlay/OverlayProvider';
+import { AudioProvider } from '@/app/context/AudioContext';
 
 function AnimatedStack() {
   const { scale } = useRootScale();
@@ -65,7 +67,11 @@ export default function RootLayout() {
     <GestureHandlerRootView style={styles.container}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <RootScaleProvider>
-          <AnimatedStack />
+          <AudioProvider>
+            <OverlayProvider>
+              <AnimatedStack />
+            </OverlayProvider>
+          </AudioProvider>
         </RootScaleProvider>
       </ThemeProvider>
     </GestureHandlerRootView>

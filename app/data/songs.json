@@ -5,7 +5,8 @@
             "title": "A Bar Song (Tipsy)",
             "artist": "Shaboozey",
             "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/54/50/75/54507577-9e1d-c2c0-79dd-81e65aa7fb9d/197342550925_cover.jpg/247x247bb.jpg",
-            "artwork_bg_color": "#808080"
+            "artwork_bg_color": "#808080",
+            "mp4_url": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/ca/08/ce/ca08ce69-fa1f-e9bf-16da-dfd34aa80b49/mzaf_4558229648643978920.plus.aac.p.m4a"
         },
         {
             "id": "436219",

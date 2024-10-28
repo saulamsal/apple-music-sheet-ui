@@ -2,8 +2,10 @@ import { StyleSheet, Pressable, Image } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { Ionicons } from '@expo/vector-icons';
+import { Audio } from 'expo-av';
+import { useState, useEffect } from 'react';
 
-export function MiniPlayer({ onPress, song }: { onPress: () => void; song: any }) {
+export function MiniPlayer({ onPress, song, isPlaying, onPlayPause }: MiniPlayerProps) {
     return (
         <Pressable onPress={onPress} style={styles.container}>
             <ThemedView style={styles.content}>
@@ -15,8 +17,8 @@ export function MiniPlayer({ onPress, song }: { onPress: () => void; song: any }
                     <ThemedText type="defaultSemiBold">{song.title}</ThemedText>
                 </ThemedView>
                 <ThemedView style={styles.controls}>
-                    <Pressable style={styles.controlButton}>
-                        <Ionicons name="pause" size={24} />
+                    <Pressable style={styles.controlButton} onPress={onPlayPause}>
+                        <Ionicons name={isPlaying ? "pause" : "play"} size={24} />
                     </Pressable>
                     <Pressable style={styles.controlButton}>
                         <Ionicons name="play-forward" size={24} />
@@ -72,3 +74,11 @@ const styles = StyleSheet.create({
         padding: 8,
     },
 });
+
+interface MiniPlayerProps {
+    onPress: () => void;
+    song: any;
+    sound?: Audio.Sound | null;
+    isPlaying: boolean;
+    onPlayPause: () => void;
+}
