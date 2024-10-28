@@ -24,6 +24,7 @@ export default function HomeScreen() {
     <Pressable
       onPress={() => {
         setSelectedSongId(item.id);
+        router.push(`/music/${item.id}`)
       }}
       style={styles.songItem}
     >

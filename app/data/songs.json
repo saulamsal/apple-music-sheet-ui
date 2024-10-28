@@ -5,35 +5,35 @@
             "title": "A Bar Song (Tipsy)",
             "artist": "Shaboozey",
             "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/54/50/75/54507577-9e1d-c2c0-79dd-81e65aa7fb9d/197342550925_cover.jpg/247x247bb.jpg",
-            "artwork_bg_color": "#EF6AD4"
+            "artwork_bg_color": "#808080"
         },
         {
             "id": "436219",
             "title": "I Had Some Help",
             "artist": "Post Malone Featuring Morgan Wallen",
             "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/e1/b7/09/e1b7098f-d6e1-2b18-fd6f-8390110908eb/24UMGIM50612.rgb.jpg/247x247bb.jpg",
-            "artwork_bg_color": null
+            "artwork_bg_color": "#1e4d7a"
         },
         {
             "id": "418153",
             "title": "Lose Control",
             "artist": "Teddy Swims",
             "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/36/19/66/36196640-1561-dc5e-c6bc-1e5f4befa583/093624856771.jpg/247x247bb.jpg",
-            "artwork_bg_color": null
+            "artwork_bg_color": "#cc5500"
         },
         {
             "id": "433999",
             "title": "Good Luck, Babe!",
             "artist": "Chappell Roan",
             "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/29/a7/c4/29a7c478-351d-25eb-a116-3e68118cdab8/24UMGIM31246.rgb.jpg/247x247bb.jpg",
-            "artwork_bg_color": "#d8c3b0"
+            "artwork_bg_color": "#8B2323"
         },
         {
             "id": "299829",
             "title": "Taste",
             "artist": "Tyga ft Offset",
             "artwork": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/a5/c4/24/a5c424a5-8084-47ab-3fa8-e82f00faf1bf/888915632314_cover.jpg/247x247bb.jpg",
-            "artwork_bg_color": "#e0dde6"
+            "artwork_bg_color": "#8B7355"
         },
         {
             "id": "429925",
