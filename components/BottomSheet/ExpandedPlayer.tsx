@@ -36,23 +36,26 @@ export function ExpandedPlayer({ song }: { song: any }) {
                                 <ThemedText style={styles.artist}>{song.artist}</ThemedText>
                             </ThemedView>
                             <ThemedView style={styles.titleIcons}>
-                                <Pressable>
-                                    <Ionicons name="star-outline" size={24} color="#fff" />
+                                <Pressable style={styles.iconButton}>
+                                    <Ionicons name="star-outline" size={18} color="#fff" />
                                 </Pressable>
-                                <Pressable>
-                                    <Ionicons name="ellipsis-horizontal" size={24} color="#fff" />
+                                <Pressable style={styles.iconButton}>
+                                    <Ionicons name="ellipsis-horizontal" size={18} color="#fff" />
                                 </Pressable>
                             </ThemedView>
                         </ThemedView>
                     </ThemedView>
 
-                    <ThemedView style={styles.progressBar}>
-                        <ThemedView style={styles.progress} />
-                    </ThemedView>
 
-                    <ThemedView style={styles.timeContainer}>
-                        <ThemedText style={styles.timeText}>0:09</ThemedText>
-                        <ThemedText style={styles.timeText}>-2:38</ThemedText>
+                    <ThemedView>
+                        <ThemedView style={styles.progressBar}>
+                            <ThemedView style={styles.progress} />
+                        </ThemedView>
+
+                        <ThemedView style={styles.timeContainer}>
+                            <ThemedText style={styles.timeText}>0:09</ThemedText>
+                            <ThemedText style={styles.timeText}>-2:38</ThemedText>
+                        </ThemedView>
                     </ThemedView>
 
                     <ThemedView style={styles.buttonContainer}>
@@ -157,16 +160,18 @@ const styles = StyleSheet.create({
         color: '#fff',
     },
     progressBar: {
-        height: 3,
+        height: 6,
         backgroundColor: 'rgba(255, 255, 255, 0.3)',
-        borderRadius: 1.5,
+        borderRadius: 5,
         marginBottom: 10,
     },
     progress: {
         width: '30%',
         height: '100%',
-        backgroundColor: '#fff',
-        borderRadius: 1.5,
+        backgroundColor: '#ffffff6a',
+        borderRadius: 5,
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0,
     },
     timeContainer: {
         flexDirection: 'row',
@@ -210,5 +215,13 @@ const styles = StyleSheet.create({
         height: '100%',
         backgroundColor: '#fff',
         borderRadius: 1.5,
+    },
+    iconButton: {
+        width: 32,
+        height: 32,
+        borderRadius: 20,
+        backgroundColor: 'rgba(255, 255, 255, 0.2)',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
