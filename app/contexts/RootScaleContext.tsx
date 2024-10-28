@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import { SharedValue, useSharedValue, withSpring, runOnJS } from 'react-native-reanimated';
+import { SharedValue, useSharedValue, withSpring } from 'react-native-reanimated';
 
 interface RootScaleContextType {
     scale: SharedValue<number>;
@@ -13,10 +13,16 @@ export function RootScaleProvider({ children }: { children: React.ReactNode }) {
 
     const setScale = (value: number) => {
         'worklet';
-        scale.value = withSpring(value, {
-            damping: 15,
-            stiffness: 150,
-        });
+        try {
+            scale.value = withSpring(value, {
+                damping: 15,
+                stiffness: 150,
+                mass: 0.5, // Added for smoother animation
+            });
+        } catch (error) {
+            console.warn('Scale animation error:', error);
+            scale.value = value;
+        }
     };
 
     return (
