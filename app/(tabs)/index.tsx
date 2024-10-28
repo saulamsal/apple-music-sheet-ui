@@ -57,19 +57,30 @@ export default function HomeScreen() {
         headerImage={
           <ThemedView style={{
             flex: 1, width: '100%', height: '100%', position: 'absolute', top: 0, left: 0,
-            backgroundColor: '#f57a8a',
             alignItems: 'center',
-          }}>
 
-            <Text style={{ fontSize: 18, letterSpacing: -0.5, alignSelf: 'center', position: 'absolute', top: 80 }}>
-              Built with Expo
-            </Text>
+          }}>
             <Image
               source={{
-                uri: 'https://logos-world.net/wp-content/uploads/2020/11/Apple-Music-Logo.png'
+                uri: 'https://9to5mac.com/wp-content/uploads/sites/6/2021/08/apple-music-logo-2021-9to5mac.jpg?quality=82&strip=all&w=1024'
               }}
-              style={styles.reactLogo}
+              style={{
+                position: 'absolute',
+                width: '100%',
+                height: '100%'
+              }}
             />
+            <Text style={{
+              fontSize: 18,
+              letterSpacing: -0.5,
+              alignSelf: 'center',
+              position: 'absolute',
+              top: 80,
+              color: '#fff'  // Added white color for better visibility
+            }}>
+              Built with Expo
+            </Text>
+
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', gap: 10 }}>
               <View style={styles.headerButtons}>
                 <Pressable
@@ -102,7 +113,6 @@ export default function HomeScreen() {
         <ThemedView style={styles.titleContainer}>
           <ThemedView style={styles.titleRow}>
             <ThemedText type="title">Billboard Top 20</ThemedText>
-            <Ionicons name="trending-up" size={24} color="#FA2D48" />
           </ThemedView>
           <ThemedText type="subtitle">
             {new Date().toLocaleDateString('en-US', {
@@ -148,10 +158,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
+
   },
   reactLogo: {
-    height: 70,
-    width: 200,
+    height: 50,
+    width: 210,
     bottom: 0,
     top: 100,
   },
@@ -192,7 +203,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 20,
     position: 'absolute',
-    bottom: 20,
+    bottom: 30,
     // width: '100%',
 
     marginHorizontal: 20,

@@ -9,7 +9,7 @@ import Animated, {
 
 import { ThemedView } from '@/components/ThemedView';
 
-const HEADER_HEIGHT = 350;
+const HEADER_HEIGHT = 300;
 
 type Props = PropsWithChildren<{
   headerImage: ReactElement;
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
-    height: 250,
+    height: 280,
     overflow: 'hidden',
   },
   content: {
