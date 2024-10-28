@@ -1,11 +1,27 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import { Image, StyleSheet, Platform, Pressable } from 'react-native';
+import { useRouter } from 'expo-router';
 
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 
+const POPULAR_SONGS = [
+  { id: '1', title: 'vampire', artist: 'Olivia Rodrigo', year: 2023 },
+  { id: '2', title: 'Last Night', artist: 'Morgan Wallen', year: 2023 },
+  { id: '3', title: 'Rich Flex', artist: 'Drake & 21 Savage', year: 2023 },
+  { id: '4', title: 'Anti-Hero', artist: 'Taylor Swift', year: 2023 },
+  { id: '5', title: 'Kill Bill', artist: 'SZA', year: 2023 },
+  { id: '6', title: 'Cruel Summer', artist: 'Taylor Swift', year: 2024 },
+  { id: '7', title: 'Paint The Town Red', artist: 'Doja Cat', year: 2023 },
+  { id: '8', title: 'Flowers', artist: 'Miley Cyrus', year: 2023 },
+  { id: '9', title: 'Rich Baby Daddy', artist: 'Drake, Sexyy Red & SZA', year: 2023 },
+  { id: '10', title: 'Water', artist: 'Tyla', year: 2024 },
+];
+
 export default function HomeScreen() {
+  const router = useRouter();
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
@@ -16,35 +32,21 @@ export default function HomeScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
+        <ThemedText type="title">Popular Tracks</ThemedText>
       </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({ ios: 'cmd + d', android: 'cmd + m' })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
+
+      <ThemedView style={styles.songsContainer}>
+        {POPULAR_SONGS.map((song) => (
+          <Pressable
+            key={song.id}
+            style={styles.songItem}
+            onPress={() => router.push(`/music/${song.id}`)}>
+            <ThemedView>
+              <ThemedText type="defaultSemiBold">{song.title}</ThemedText>
+              <ThemedText style={styles.artistText}>{song.artist}</ThemedText>
+            </ThemedView>
+          </Pressable>
+        ))}
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -55,10 +57,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 8,
+    marginBottom: 20,
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  songsContainer: {
+    gap: 16,
+  },
+  songItem: {
+    padding: 12,
+    borderRadius: 8,
+    backgroundColor: 'rgba(0,0,0,0.05)',
+  },
+  artistText: {
+    fontSize: 14,
+    opacity: 0.7,
   },
   reactLogo: {
     height: 178,
