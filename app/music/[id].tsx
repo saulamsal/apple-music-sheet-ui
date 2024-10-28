@@ -14,7 +14,7 @@ import Animated, {
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import { songs } from '@/app/data/songs.json';
 
-const SCALE_FACTOR = 0.78;
+const SCALE_FACTOR = 0.83;
 
 export default function MusicScreen() {
     const { id } = useLocalSearchParams();
@@ -54,7 +54,8 @@ export default function MusicScreen() {
             'worklet';
             if (event.translationY > 0) {
                 translateY.value = event.translationY;
-                const progress = Math.min(event.translationY / 300, 1);
+                // Slowing down the scale update by dividing progress by 2
+                const progress = Math.min(event.translationY / 600, 1); // Doubled from 300 to 600
                 const newScale = SCALE_FACTOR + (progress * (1 - SCALE_FACTOR));
                 setScale(newScale);
             }
