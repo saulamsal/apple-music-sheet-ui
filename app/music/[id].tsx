@@ -12,18 +12,18 @@ import Animated, {
     runOnJS,
 } from 'react-native-reanimated';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
+import { songs } from '@/app/data/songs.json';
 
-const SONG = {
-    id: '1', title: 'vampire', artist: 'Olivia Rodrigo', year: 2023,
-    artwork: 'https://cdn.theatlantic.com/thumbor/FNDCOksdZgDXO7bzQ3MCXzj3W30=/732x0:2419x1687/1080x1080/media/img/mt/2021/05/SOUR_FINAL/original.jpg'
-};
 const SCALE_FACTOR = 0.85;
 
 export default function MusicScreen() {
+    const { id } = useLocalSearchParams();
     const router = useRouter();
     const { setScale } = useRootScale();
     const translateY = useSharedValue(0);
     const isClosing = useRef(false);
+
+    const song = songs.find(s => s.id === id) || songs[0];
 
     const goBack = useCallback(() => {
         if (!isClosing.current) {
@@ -83,7 +83,7 @@ export default function MusicScreen() {
         <ThemedView style={styles.container}>
             <GestureDetector gesture={gesture}>
                 <Animated.View style={[styles.modalContent, animatedStyle]}>
-                    <ExpandedPlayer song={SONG} />
+                    <ExpandedPlayer song={song} />
                 </Animated.View>
             </GestureDetector>
         </ThemedView>

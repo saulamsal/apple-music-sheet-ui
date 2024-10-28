@@ -1,0 +1,124 @@
+{
+    "songs": [
+        {
+            "id": "1",
+            "title": "A Bar Song (Tipsy)",
+            "artist": "Shaboozey",
+            "artwork": "https://i.scdn.co/image/ab67616d0000b273726d05a12ae188c6df6c0ddb"
+        },
+        {
+            "id": "2",
+            "title": "Birds Of A Feather",
+            "artist": "Billie Eilish",
+            "artwork": "https://i.scdn.co/image/ab67616d0000b273e787cffec20aa2a396a61647"
+        },
+        {
+            "id": "3",
+            "title": "Espresso",
+            "artist": "Sabrina Carpenter",
+            "artwork": "https://i.scdn.co/image/ab67616d0000b273a3a7f38ea2033aa501afd4cf"
+        },
+        {
+            "id": "4",
+            "title": "Die With A Smile",
+            "artist": "Lady Gaga & Bruno Mars",
+            "artwork": "https://i.scdn.co/image/ab67616d0000b273bb54dde68cd23e2a268ae0f5"
+        },
+        {
+            "id": "5",
+            "title": "I Had Some Help",
+            "artist": "Post Malone Featuring Morgan Wallen",
+            "artwork": "https://i.scdn.co/image/ab67616d0000b273f429549123dbe8552764ba1d"
+        },
+        {
+            "id": "6",
+            "title": "Lose Control",
+            "artist": "Teddy Swims",
+            "artwork": "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533"
+        },
+        {
+            "id": "7",
+            "title": "Good Luck, Babe!",
+            "artist": "Chappell Roan",
+            "artwork": "https://i.scdn.co/image/ab67616d0000b273726d05a12ae188c6df6c0ddb"
+        },
+        {
+            "id": "8",
+            "title": "Taste",
+            "artist": "Sabrina Carpenter",
+            "artwork": "https://i.scdn.co/image/ab67616d0000b273e787cffec20aa2a396a61647"
+        },
+        {
+            "id": "9",
+            "title": "Beautiful Things",
+            "artist": "Benson Boone",
+            "artwork": "https://i.scdn.co/image/ab67616d0000b273a3a7f38ea2033aa501afd4cf"
+        },
+        {
+            "id": "10",
+            "title": "Please Please Please",
+            "artist": "Sabrina Carpenter",
+            "artwork": "https://i.scdn.co/image/ab67616d0000b273bb54dde68cd23e2a268ae0f5"
+        },
+        {
+            "id": "11",
+            "title": "Not Like Us",
+            "artist": "Kendrick Lamar",
+            "artwork": "https://i.scdn.co/image/ab67616d0000b273f429549123dbe8552764ba1d"
+        },
+        {
+            "id": "12",
+            "title": "Too Sweet",
+            "artist": "Hozier",
+            "artwork": "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533"
+        },
+        {
+            "id": "13",
+            "title": "Timeless",
+            "artist": "The Weeknd & Playboi Carti",
+            "artwork": "https://i.scdn.co/image/ab67616d0000b273726d05a12ae188c6df6c0ddb"
+        },
+        {
+            "id": "14",
+            "title": "I Am Not Okay",
+            "artist": "Jelly Roll",
+            "artwork": "https://i.scdn.co/image/ab67616d0000b273e787cffec20aa2a396a61647"
+        },
+        {
+            "id": "15",
+            "title": "Million Dollar Baby",
+            "artist": "Tommy Richman",
+            "artwork": "https://i.scdn.co/image/ab67616d0000b273a3a7f38ea2033aa501afd4cf"
+        },
+        {
+            "id": "16",
+            "title": "25",
+            "artist": "Rod Wave",
+            "artwork": "https://i.scdn.co/image/ab67616d0000b273bb54dde68cd23e2a268ae0f5"
+        },
+        {
+            "id": "17",
+            "title": "Lies Lies Lies",
+            "artist": "Morgan Wallen",
+            "artwork": "https://i.scdn.co/image/ab67616d0000b273f429549123dbe8552764ba1d"
+        },
+        {
+            "id": "18",
+            "title": "Hot To Go!",
+            "artist": "Chappell Roan",
+            "artwork": "https://i.scdn.co/image/ab67616d0000b27382b243023b937fd579a35533"
+        },
+        {
+            "id": "19",
+            "title": "I Love You, I'm Sorry",
+            "artist": "Gracie Abrams",
+            "artwork": "https://i.scdn.co/image/ab67616d0000b273726d05a12ae188c6df6c0ddb"
+        },
+        {
+            "id": "20",
+            "title": "Miles On It",
+            "artist": "Marshmello & Kane Brown",
+            "artwork": "https://i.scdn.co/image/ab67616d0000b273e787cffec20aa2a396a61647"
+        }
+    ]
+}
