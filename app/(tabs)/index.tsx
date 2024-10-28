@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Platform, Pressable, FlatList } from 'react-native';
+import { Text, Image, StyleSheet, Platform, Pressable, FlatList } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
@@ -55,12 +55,18 @@ export default function HomeScreen() {
       <ParallaxScrollView
         headerBackgroundColor={{ light: '#f57a8a', dark: '#FA2D48' }}
         headerImage={
-          <Image
-            source={{
-              uri: 'https://logos-world.net/wp-content/uploads/2020/11/Apple-Music-Logo.png'
-            }}
-            style={styles.reactLogo}
-          />
+          <ThemedView style={{
+            flex: 1, width: '100%', height: '100%', position: 'absolute', top: 0, left: 0,
+            backgroundColor: '#f57a8a'
+          }}>
+            <Image
+              source={{
+                uri: 'https://logos-world.net/wp-content/uploads/2020/11/Apple-Music-Logo.png'
+              }}
+              style={styles.reactLogo}
+            />
+            <Text style={{ fontSize: 22, letterSpacing: -0.5, position: 'absolute', bottom: 16, alignSelf: 'center' }}>Built with Expo</Text>
+          </ThemedView>
         }
         contentContainerStyle={styles.scrollView}
       >
