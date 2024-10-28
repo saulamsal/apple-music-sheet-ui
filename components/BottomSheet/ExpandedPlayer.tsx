@@ -35,7 +35,6 @@ function shadeColor(color, percent) {
 
 
 
-
 export function ExpandedPlayer({ song }: { song: any }) {
 
     const insets = useSafeAreaInsets();
@@ -137,6 +136,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         justifyContent: 'space-between',
     },
+
+
     artworkContainer: {
         shadowColor: '#000',
         shadowOffset: {
@@ -150,8 +151,8 @@ const styles = StyleSheet.create({
         marginBottom: 40,
     },
     artwork: {
-        width: width - 80,
-        height: width - 80,
+        width: width - 40,
+        height: width - 40,
         borderRadius: 8,
     },
     controls: {
