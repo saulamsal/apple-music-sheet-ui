@@ -13,7 +13,7 @@ import Animated, {
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 
 const SONG = { id: '1', title: 'vampire', artist: 'Olivia Rodrigo', year: 2023 };
-const SCALE_FACTOR = 0.9;
+const SCALE_FACTOR = 0.85;
 
 export default function MusicScreen() {
     const router = useRouter();
