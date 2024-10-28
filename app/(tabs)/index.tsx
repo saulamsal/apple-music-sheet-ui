@@ -42,7 +42,7 @@ export default function HomeScreen() {
         </ThemedView>
       </ThemedView>
       <Pressable style={styles.moreButton}>
-        <MaterialIcons name="more-vert" size={24} color="#666" />
+        <MaterialIcons name="more-horiz" size={20} color="#222222" />
       </Pressable>
     </Pressable>
   );
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   songItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 12,
+    paddingVertical: 6,
     gap: 12,
   },
   songArtwork: {
@@ -175,11 +175,13 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   songTitle: {
-    fontSize: 16,
+    fontSize: 15,
+    fontWeight: '400',
   },
   songArtist: {
     fontSize: 14,
-    opacity: 0.7,
+    fontWeight: '400',
+    opacity: 0.6,
   },
   moreButton: {
     padding: 8,
