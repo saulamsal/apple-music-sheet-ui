@@ -91,10 +91,10 @@ export default function RootLayout() {
     </GestureHandlerRootView>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#000',
   },
   stackContainer: {
     flex: 1,
@@ -102,3 +102,4 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
 });
+

@@ -1,6 +1,7 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { StyleSheet, Dimensions } from 'react-native';
 import { useEffect, useCallback, useRef } from 'react';
+import { StatusBar } from 'expo-status-bar';
 import { ThemedView } from '@/components/ThemedView';
 import { ExpandedPlayer } from '@/components/BottomSheet/ExpandedPlayer';
 import { useRootScale } from '@/app/contexts/RootScaleContext';
@@ -22,8 +23,10 @@ export default function MusicScreen() {
     const { setScale } = useRootScale();
     const translateY = useSharedValue(0);
     const isClosing = useRef(false);
+    const statusBarStyle = useSharedValue('light');
 
-    const song = songs.find(s => s.id === id) || songs[0];
+    const numericId = typeof id === 'string' ? parseInt(id, 10) : Array.isArray(id) ? parseInt(id[0], 10) : 0;
+    const song = songs.find(s => s.id === numericId) || songs[0];
 
     const goBack = useCallback(() => {
         if (!isClosing.current) {
@@ -54,10 +57,15 @@ export default function MusicScreen() {
             'worklet';
             if (event.translationY > 0) {
                 translateY.value = event.translationY;
-                // Slowing down the scale update by dividing progress by 2
-                const progress = Math.min(event.translationY / 600, 1); // Doubled from 300 to 600
+                const progress = Math.min(event.translationY / 600, 1);
                 const newScale = SCALE_FACTOR + (progress * (1 - SCALE_FACTOR));
                 setScale(newScale);
+
+                if (newScale > (1 + SCALE_FACTOR) / 2) {
+                    statusBarStyle.value = 'dark';
+                } else {
+                    statusBarStyle.value = 'light';
+                }
             }
         })
         .onEnd((event) => {
@@ -82,6 +90,7 @@ export default function MusicScreen() {
 
     return (
         <ThemedView style={styles.container}>
+            <StatusBar animated={true} style={statusBarStyle.value} />
             <GestureDetector gesture={gesture}>
                 <Animated.View style={[styles.modalContent, animatedStyle]}>
                     <ExpandedPlayer />

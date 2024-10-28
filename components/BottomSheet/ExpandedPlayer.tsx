@@ -1,4 +1,5 @@
 import { View as ThemedView, StyleSheet, Image, Pressable, Dimensions } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { ThemedText } from '@/components/ThemedText';
 // import { ThemedView } from '@/components/ThemedView';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -67,7 +68,6 @@ export function ExpandedPlayer() {
 
     const progress = duration > 0 ? (position / duration) * 100 : 0;
 
-    // Update the progress bar and time display in the JSX
     return (
         <LinearGradient
             colors={colors}
