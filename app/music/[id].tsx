@@ -14,7 +14,7 @@ import Animated, {
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import { songs } from '@/app/data/songs.json';
 
-const SCALE_FACTOR = 0.85;
+const SCALE_FACTOR = 0.78;
 
 export default function MusicScreen() {
     const { id } = useLocalSearchParams();
