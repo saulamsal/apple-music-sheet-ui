@@ -60,6 +60,10 @@ export default function HomeScreen() {
             backgroundColor: '#f57a8a',
             alignItems: 'center',
           }}>
+
+            <Text style={{ fontSize: 18, letterSpacing: -0.5, alignSelf: 'center', position: 'absolute', top: 80 }}>
+              Built with Expo
+            </Text>
             <Image
               source={{
                 uri: 'https://logos-world.net/wp-content/uploads/2020/11/Apple-Music-Logo.png'
@@ -188,7 +192,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 20,
     position: 'absolute',
-    bottom: 10,
+    bottom: 20,
     // width: '100%',
 
     marginHorizontal: 20,
