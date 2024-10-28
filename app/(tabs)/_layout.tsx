@@ -3,6 +3,8 @@ import React from 'react';
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { BlurView } from 'expo-blur';
+import { Platform, StyleSheet } from 'react-native';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -13,8 +15,25 @@ export default function TabLayout() {
         tabBarActiveTintColor: '#FA2D48',
         headerShown: false,
         tabBarStyle: {
-          zIndex: 1001,
-        }
+          position: 'absolute',
+          backgroundColor: Platform.select({
+            ios: 'transparent',
+            android: 'rgba(255, 255, 255, 0.8)', // Fallback for Android
+          }),
+          borderTopWidth: 0,
+          elevation: 0,
+          height: 80,
+          paddingBottom: 30,
+        },
+        tabBarBackground: () => (
+          Platform.OS === 'ios' ? (
+            <BlurView
+              tint={colorScheme === 'dark' ? 'dark' : 'light'}
+              intensity={80}
+              style={StyleSheet.absoluteFill}
+            />
+          ) : null
+        ),
       }}>
       <Tabs.Screen
         name="index"
@@ -39,7 +58,7 @@ export default function TabLayout() {
         options={{
           title: 'Radio',
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="radio" color={color} />
+            <TabBarIcon name="radio-outline" color={color} />
           ),
         }}
       />
