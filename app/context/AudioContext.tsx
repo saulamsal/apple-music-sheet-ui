@@ -7,7 +7,7 @@ interface Song {
     artist: string;
     artwork: string;
     artwork_bg_color?: string;
-    mp4_url?: string;
+    mp4_link?: string;
 }
 
 interface AudioContextType {
@@ -49,7 +49,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
             }
 
             const { sound: newSound } = await Audio.Sound.createAsync(
-                { uri: song.mp4_url },
+                { uri: song.mp4_link },
                 { shouldPlay: true },
                 onPlaybackStatusUpdate
             );
