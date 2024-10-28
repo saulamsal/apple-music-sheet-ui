@@ -84,7 +84,7 @@ export default function MusicScreen() {
         <ThemedView style={styles.container}>
             <GestureDetector gesture={gesture}>
                 <Animated.View style={[styles.modalContent, animatedStyle]}>
-                    <ExpandedPlayer song={song} />
+                    <ExpandedPlayer />
                 </Animated.View>
             </GestureDetector>
         </ThemedView>

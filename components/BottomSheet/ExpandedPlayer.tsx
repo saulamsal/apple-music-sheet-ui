@@ -33,17 +33,18 @@ function shadeColor(color: string, percent: number): string {
 
 
 
-export function ExpandedPlayer({ song }: { song: any }) {
+export function ExpandedPlayer() {
     const {
         isPlaying,
         position,
         duration,
         togglePlayPause,
-        sound
+        sound,
+        currentSong
     } = useAudio();
     const insets = useSafeAreaInsets();
 
-    const colorToUse = song.artwork_bg_color || "#000000";
+    const colorToUse = currentSong?.artwork_bg_color || "#000000";
     const colors = [colorToUse, shadeColor(colorToUse, -50)];
 
     const handleSkipForward = async () => {
@@ -77,7 +78,7 @@ export function ExpandedPlayer({ song }: { song: any }) {
             <ThemedView style={styles.container}>
                 <ThemedView style={styles.artworkContainer}>
                     <Image
-                        source={{ uri: song.artwork }}
+                        source={{ uri: currentSong?.artwork }}
                         style={styles.artwork}
                     />
                 </ThemedView>
@@ -86,8 +87,12 @@ export function ExpandedPlayer({ song }: { song: any }) {
                     <ThemedView style={styles.titleContainer}>
                         <ThemedView style={styles.titleRow}>
                             <ThemedView style={styles.titleMain}>
-                                <ThemedText type="title" style={styles.title}>{song.title}</ThemedText>
-                                <ThemedText style={styles.artist}>{song.artist}</ThemedText>
+                                <ThemedText type="title" style={styles.title}>
+                                    {currentSong?.title}
+                                </ThemedText>
+                                <ThemedText style={styles.artist}>
+                                    {currentSong?.artist}
+                                </ThemedText>
                             </ThemedView>
                             <ThemedView style={styles.titleIcons}>
                                 <Pressable style={styles.iconButton}>
