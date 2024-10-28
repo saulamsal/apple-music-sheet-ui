@@ -87,7 +87,7 @@ export default function HomeScreen() {
                     setSelectedSongId(songs[0].id);
                   }}
                 >
-                  <Ionicons name="play-circle" size={24} color="#fff" />
+                  <Ionicons name="play" size={24} color="#fff" />
                   <Text style={styles.headerButtonText}>Play</Text>
                 </Pressable>
                 <Pressable
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.1)',
     paddingHorizontal: 16,
     paddingVertical: 8,
-    borderRadius: 20,
+    borderRadius: 10,
     gap: 8,
     flex: 1,
     justifyContent: 'center',
