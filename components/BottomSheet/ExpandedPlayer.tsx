@@ -84,6 +84,8 @@ const styles = StyleSheet.create({
         flex: 1,
         height: '100%',
         width: '100%',
+        borderTopLeftRadius: 40,
+        borderTopRightRadius: 40,
     },
     dragHandle: {
         width: 40,
@@ -98,6 +100,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 20,
         paddingTop: 30,
+
         backgroundColor: 'transparent',
         justifyContent: 'space-between',
     },

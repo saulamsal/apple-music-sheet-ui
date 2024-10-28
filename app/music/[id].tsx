@@ -52,16 +52,16 @@ const styles = StyleSheet.create({
     },
     modalContent: {
         flex: 1,
-        backgroundColor: 'white',
-        borderTopLeftRadius: 12,
-        borderTopRightRadius: 12,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: -2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
+        backgroundColor: 'transparent',
+        // borderTopLeftRadius: 12,
+        // borderTopRightRadius: 12,
+        // shadowColor: '#000',
+        // shadowOffset: {
+        //     width: 0,
+        //     height: -2,
+        // },
+        // shadowOpacity: 0.25,
+        // shadowRadius: 3.84,
+        // elevation: 5,
     },
 });
