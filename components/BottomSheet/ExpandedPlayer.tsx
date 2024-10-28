@@ -20,10 +20,12 @@ export function ExpandedPlayer({ song }: { song: any }) {
             <ThemedView style={styles.dragHandle} />
 
             <ThemedView style={styles.container}>
-                <Image
-                    source={{ uri: 'https://cdn.theatlantic.com/thumbor/FNDCOksdZgDXO7bzQ3MCXzj3W30=/732x0:2419x1687/1080x1080/media/img/mt/2021/05/SOUR_FINAL/original.jpg' }}
-                    style={styles.artwork}
-                />
+                <ThemedView style={styles.artworkContainer}>
+                    <Image
+                        source={{ uri: 'https://cdn.theatlantic.com/thumbor/FNDCOksdZgDXO7bzQ3MCXzj3W30=/732x0:2419x1687/1080x1080/media/img/mt/2021/05/SOUR_FINAL/original.jpg' }}
+                        style={styles.artwork}
+                    />
+                </ThemedView>
 
                 <ThemedView style={styles.controls}>
                     <ThemedView style={styles.titleContainer}>
@@ -98,19 +100,22 @@ const styles = StyleSheet.create({
         paddingTop: 30,
         backgroundColor: 'transparent',
     },
+    artworkContainer: {
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 8,
+        },
+        shadowOpacity: 0.4,
+        shadowRadius: 12,
+        elevation: 12,
+        backgroundColor: 'transparent', // Required for Android shadows
+        marginBottom: 40,
+    },
     artwork: {
         width: width - 80,
         height: width - 80,
         borderRadius: 8,
-        marginBottom: 40,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 4,
-        },
-        shadowOpacity: 0.3,
-        shadowRadius: 8,
-        elevation: 8
     },
     controls: {
         width: '100%',
