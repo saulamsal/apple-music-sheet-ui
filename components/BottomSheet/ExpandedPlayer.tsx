@@ -8,20 +8,29 @@ import {
     useSafeAreaInsets,
 } from 'react-native-safe-area-context';
 
-function darkenColor(color: string) {
-    if (color === '#000000' || color === null) {
-        return '#000000';
-    }
+function shadeColor(color, percent) {
 
-    const rgb = color.match(/\d+/g);
-    if (!rgb || rgb.length < 3) {
-        return '#000000';
-    }
+    var R = parseInt(color.substring(1, 3), 16);
+    var G = parseInt(color.substring(3, 5), 16);
+    var B = parseInt(color.substring(5, 7), 16);
 
-    const r = Math.floor(parseInt(rgb[0]) * 0.5);
-    const g = Math.floor(parseInt(rgb[1]) * 0.5);
-    const b = Math.floor(parseInt(rgb[2]) * 0.5);
-    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+    R = parseInt(R * (100 + percent) / 100);
+    G = parseInt(G * (100 + percent) / 100);
+    B = parseInt(B * (100 + percent) / 100);
+
+    R = (R < 255) ? R : 255;
+    G = (G < 255) ? G : 255;
+    B = (B < 255) ? B : 255;
+
+    R = Math.round(R)
+    G = Math.round(G)
+    B = Math.round(B)
+
+    var RR = ((R.toString(16).length == 1) ? "0" + R.toString(16) : R.toString(16));
+    var GG = ((G.toString(16).length == 1) ? "0" + G.toString(16) : G.toString(16));
+    var BB = ((B.toString(16).length == 1) ? "0" + B.toString(16) : B.toString(16));
+
+    return "#" + RR + GG + BB;
 }
 
 
@@ -32,7 +41,7 @@ export function ExpandedPlayer({ song }: { song: any }) {
     const insets = useSafeAreaInsets();
 
     const colorToUse = song.artwork_bg_color || "#000000";
-    const colors = [colorToUse, darkenColor(colorToUse)];
+    const colors = [colorToUse, shadeColor(colorToUse, -50)];
     return (
         <LinearGradient
             colors={colors}
