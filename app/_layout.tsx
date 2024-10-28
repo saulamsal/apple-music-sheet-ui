@@ -30,10 +30,17 @@ export default function RootLayout() {
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="music/[id]" options={{
-          presentation: 'modal',
-          headerTitle: 'Now Playing',
-        }} />
+        <Stack.Screen
+          name="music/[id]"
+          options={{
+            presentation: 'transparentModal',
+            headerShown: false,
+            // animation: 'slide_from_bottom',
+            contentStyle: {
+              backgroundColor: 'transparent',
+            },
+          }}
+        />
         <Stack.Screen name="+not-found" />
       </Stack>
     </ThemeProvider>
