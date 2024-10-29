@@ -8,6 +8,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
 import { songs } from '@/app/data/songs.json';
 import { useAudio } from '@/app/context/AudioContext';
+import { MusicVisualizer } from '@/components/MusicVisualizer';
 
 interface Song {
   id: string;
@@ -28,7 +29,12 @@ export default function HomeScreen() {
       }}
       style={styles.songItem}
     >
-      <Image source={{ uri: item.artwork }} style={styles.songArtwork} />
+      <View style={styles.artworkContainer}>
+        <Image source={{ uri: item.artwork }} style={styles.songArtwork} />
+        {item.id === currentSong?.id && (
+          <MusicVisualizer isPlaying={isPlaying} />
+        )}
+      </View>
       <ThemedView style={styles.songInfo}>
         <ThemedText type="defaultSemiBold" numberOfLines={1} style={styles.songTitle}>
           {item.title}
@@ -163,9 +169,14 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     gap: 12,
   },
-  songArtwork: {
+  artworkContainer: {
+    position: 'relative',
     width: 56,
     height: 56,
+  },
+  songArtwork: {
+    width: '100%',
+    height: '100%',
     borderRadius: 4,
   },
   songInfo: {
