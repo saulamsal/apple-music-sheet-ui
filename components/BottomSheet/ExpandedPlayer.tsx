@@ -41,7 +41,9 @@ export function ExpandedPlayer() {
         duration,
         togglePlayPause,
         sound,
-        currentSong
+        currentSong,
+        playNextSong,
+        playPreviousSong
     } = useAudio();
     const insets = useSafeAreaInsets();
 
@@ -128,13 +130,13 @@ export function ExpandedPlayer() {
 
 
                         <ThemedView style={styles.buttonContainer}>
-                            <Pressable style={styles.button} onPress={handleSkipBackward}>
+                            <Pressable style={styles.button} onPress={playPreviousSong}>
                                 <Ionicons name="play-skip-back" size={35} color="#fff" />
                             </Pressable>
                             <Pressable style={[styles.button, styles.playButton]} onPress={togglePlayPause}>
                                 <Ionicons name={isPlaying ? "pause" : "play"} size={45} color="#fff" />
                             </Pressable>
-                            <Pressable style={styles.button} onPress={handleSkipForward}>
+                            <Pressable style={styles.button} onPress={playNextSong}>
                                 <Ionicons name="play-skip-forward" size={35} color="#fff" />
                             </Pressable>
                         </ThemedView>

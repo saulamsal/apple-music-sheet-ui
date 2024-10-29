@@ -1,8 +1,9 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { Audio } from 'expo-av';
+import { songs } from '@/app/data/songs.json';
 
 interface Song {
-    id: string;
+    id: number;
     title: string;
     artist: string;
     artwork: string;
@@ -22,6 +23,8 @@ interface AudioContextType {
     playSound: (song: Song) => Promise<void>;
     pauseSound: () => Promise<void>;
     togglePlayPause: () => Promise<void>;
+    playNextSong: () => Promise<void>;
+    playPreviousSong: () => Promise<void>;
 }
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
@@ -89,6 +92,23 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
+    const playNextSong = useCallback(async () => {
+        const currentIndex = songs.findIndex(song => song.id === currentSong?.id);
+        if (currentIndex === -1) return;
+
+        const nextSong = songs[(currentIndex + 1) % songs.length];
+        await playSound(nextSong);
+    }, [currentSong, songs]);
+
+    const playPreviousSong = useCallback(async () => {
+        const currentIndex = songs.findIndex(song => song.id === currentSong?.id);
+        if (currentIndex === -1) return;
+
+        const previousIndex = currentIndex === 0 ? songs.length - 1 : currentIndex - 1;
+        const previousSong = songs[previousIndex];
+        await playSound(previousSong);
+    }, [currentSong, songs]);
+
     return (
         <AudioContext.Provider value={{
             sound,
@@ -102,6 +122,8 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
             playSound,
             pauseSound,
             togglePlayPause,
+            playNextSong,
+            playPreviousSong,
         }}>
             {children}
         </AudioContext.Provider>

@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { useAudio } from '@/app/context/AudioContext';
 
 export function MiniPlayer({ onPress, song, isPlaying, onPlayPause }: MiniPlayerProps) {
     const insets = useSafeAreaInsets();
@@ -42,6 +43,8 @@ function MiniPlayerContent({ song, isPlaying, onPlayPause }: {
     isPlaying: boolean;
     onPlayPause: () => void;
 }) {
+    const { playNextSong } = useAudio();
+
     return (
         <ThemedView style={styles.miniPlayerContent}>
             <Image
@@ -55,7 +58,7 @@ function MiniPlayerContent({ song, isPlaying, onPlayPause }: {
                 <Pressable style={styles.controlButton} onPress={onPlayPause}>
                     <Ionicons name={isPlaying ? "pause" : "play"} size={24} />
                 </Pressable>
-                <Pressable style={styles.controlButton}>
+                <Pressable style={styles.controlButton} onPress={playNextSong}>
                     <Ionicons name="play-forward" size={24} />
                 </Pressable>
             </ThemedView>

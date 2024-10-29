@@ -21,6 +21,15 @@ export default function HomeScreen() {
   const router = useRouter();
   const { currentSong, playSound, isPlaying, togglePlayPause } = useAudio();
 
+  const handlePlayFirst = () => {
+    playSound(songs[0]);
+  };
+
+  const handleShuffle = () => {
+    const randomSong = songs[Math.floor(Math.random() * songs.length)];
+    playSound(randomSong);
+  };
+
   const renderSongItem = ({ item }: { item: Song }) => (
     <Pressable
       onPress={() => {
@@ -89,19 +98,14 @@ export default function HomeScreen() {
               <View style={styles.headerButtons}>
                 <Pressable
                   style={styles.headerButton}
-                  onPress={() => {
-                    setSelectedSongId(songs[0].id);
-                  }}
+                  onPress={handlePlayFirst}
                 >
                   <Ionicons name="play" size={24} color="#fff" />
                   <Text style={styles.headerButtonText}>Play</Text>
                 </Pressable>
                 <Pressable
                   style={styles.headerButton}
-                  onPress={() => {
-                    const randomSong = songs[Math.floor(Math.random() * songs.length)];
-                    setSelectedSongId(randomSong.id);
-                  }}
+                  onPress={handleShuffle}
                 >
                   <Ionicons name="shuffle" size={24} color="#fff" />
                   <Text style={styles.headerButtonText}>Shuffle</Text>
