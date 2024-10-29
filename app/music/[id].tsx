@@ -27,6 +27,7 @@ export default function MusicScreen() {
     const isClosing = useRef(false);
     const statusBarStyle = useSharedValue<'light' | 'dark'>('light');
     const scrollOffset = useSharedValue(0);
+    const isDragging = useSharedValue(false);
 
     const numericId = typeof id === 'string' ? parseInt(id, 10) : Array.isArray(id) ? parseInt(id[0], 10) : 0;
     const song = songs.find(s => s.id === numericId) || songs[0];
@@ -61,13 +62,14 @@ export default function MusicScreen() {
         .onStart(() => {
             'worklet';
             if (scrollOffset.value <= 0) {
+                isDragging.value = true;
                 translateY.value = 0;
             }
         })
         .onUpdate((event) => {
             'worklet';
-            if (scrollOffset.value <= 0 && event.translationY > 0) {
-                translateY.value = event.translationY;
+            if (scrollOffset.value <= 0 && isDragging.value) {
+                translateY.value = Math.max(0, event.translationY);
                 const progress = Math.min(event.translationY / 600, 1);
                 const newScale = SCALE_FACTOR + (progress * (1 - SCALE_FACTOR));
                 runOnJS(handleScale)(newScale);
@@ -81,6 +83,7 @@ export default function MusicScreen() {
         })
         .onEnd((event) => {
             'worklet';
+            isDragging.value = false;
             if (scrollOffset.value <= 0) {
                 const shouldClose = event.translationY > DRAG_THRESHOLD;
 
@@ -99,12 +102,18 @@ export default function MusicScreen() {
                     runOnJS(handleScale)(SCALE_FACTOR);
                 }
             }
+        })
+        .onFinalize(() => {
+            'worklet';
+            isDragging.value = false;
         });
 
     const scrollGesture = Gesture.Native()
         .onBegin(() => {
             'worklet';
-            translateY.value = 0;
+            if (!isDragging.value) {
+                translateY.value = 0;
+            }
         });
 
     const composedGestures = Gesture.Simultaneous(panGesture, scrollGesture);
@@ -117,9 +126,13 @@ export default function MusicScreen() {
                     onScroll={(event) => {
                         'worklet';
                         scrollOffset.value = event.nativeEvent.contentOffset.y;
+                        if (!isDragging.value && translateY.value !== 0) {
+                            translateY.value = 0;
+                        }
                         props.onScroll?.(event);
                     }}
                     scrollEventThrottle={16}
+                    bounces={scrollOffset.value <= 0 && !isDragging.value}
                 />
             </GestureDetector>
         );
