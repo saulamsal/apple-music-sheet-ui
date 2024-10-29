@@ -44,22 +44,25 @@ export default function HomeScreen() {
           <MusicVisualizer isPlaying={isPlaying} />
         )}
       </View>
-      <ThemedView style={styles.songInfo}>
-        <ThemedText type="defaultSemiBold" numberOfLines={1} style={styles.songTitle}>
-          {item.title}
-        </ThemedText>
-        <ThemedView style={styles.artistRow}>
-          {item.id === currentSong?.id && (
-            <Ionicons name="musical-note" size={16} color="#FA2D48" />
-          )}
-          <ThemedText type="subtitle" numberOfLines={1} style={styles.songArtist}>
-            {item.artist}
+
+      <ThemedView style={styles.songInfoContainer}>
+        <ThemedView style={styles.songInfo}>
+          <ThemedText type="defaultSemiBold" numberOfLines={1} style={styles.songTitle}>
+            {item.title}
           </ThemedText>
+          <ThemedView style={styles.artistRow}>
+            {item.id === currentSong?.id && (
+              <Ionicons name="musical-note" size={12} color="#FA2D48" />
+            )}
+            <ThemedText type="subtitle" numberOfLines={1} style={styles.songArtist}>
+              {item.artist}
+            </ThemedText>
+          </ThemedView>
         </ThemedView>
+        <Pressable style={styles.moreButton}>
+          <MaterialIcons name="more-horiz" size={20} color="#222222" />
+        </Pressable>
       </ThemedView>
-      <Pressable style={styles.moreButton}>
-        <MaterialIcons name="more-horiz" size={20} color="#222222" />
-      </Pressable>
     </Pressable>
   );
 
@@ -153,7 +156,8 @@ const styles = StyleSheet.create({
   titleContainer: {
     flexDirection: 'column',
     // marginBottom: 20,
-    // paddingHorizontal: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 16
   },
   titleRow: {
     flexDirection: 'row',
@@ -170,13 +174,16 @@ const styles = StyleSheet.create({
   songItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 6,
+    marginBottom: 6,
     gap: 12,
+    paddingLeft: 16
+
   },
   artworkContainer: {
     position: 'relative',
-    width: 56,
-    height: 56,
+    width: 50,
+    height: 50,
+
   },
   songArtwork: {
     width: '100%',
@@ -186,11 +193,14 @@ const styles = StyleSheet.create({
   songInfo: {
     flex: 1,
     gap: 4,
+    backgroundColor: 'transparent'
+
   },
   artistRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 4,
+    backgroundColor: 'transparent'
   },
   songTitle: {
     fontSize: 15,
@@ -200,6 +210,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '400',
     opacity: 0.6,
+    marginTop: -4
   },
   moreButton: {
     padding: 8,
@@ -229,5 +240,15 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+  },
+  songInfoContainer: {
+    flex: 1,
+    gap: 4,
+    flexDirection: 'row',
+    // backgroundColor: 'red',
+    borderBottomColor: '#ababab',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    paddingBottom: 14,
+    paddingRight: 14
   },
 });
