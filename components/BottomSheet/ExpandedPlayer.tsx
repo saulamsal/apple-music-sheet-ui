@@ -72,6 +72,8 @@ export function ExpandedPlayer() {
         <LinearGradient
             colors={colors}
             style={[styles.rootContainer, { paddingTop: insets.top }]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
         >
             <ThemedView style={styles.dragHandle} />
 
@@ -84,6 +86,7 @@ export function ExpandedPlayer() {
                 </ThemedView>
 
                 <ThemedView style={styles.controls}>
+
                     <ThemedView style={styles.titleContainer}>
                         <ThemedView style={styles.titleRow}>
                             <ThemedView style={styles.titleMain}>
@@ -103,10 +106,7 @@ export function ExpandedPlayer() {
                                 </Pressable>
                             </ThemedView>
                         </ThemedView>
-                    </ThemedView>
 
-
-                    <ThemedView>
                         <ThemedView style={styles.progressBar}>
                             <ThemedView
                                 style={[
@@ -124,19 +124,27 @@ export function ExpandedPlayer() {
                                 -{formatTime(Math.max(0, duration - position))}
                             </ThemedText>
                         </ThemedView>
+
+
+
+                        <ThemedView style={styles.buttonContainer}>
+                            <Pressable style={styles.button} onPress={handleSkipBackward}>
+                                <Ionicons name="play-skip-back" size={35} color="#fff" />
+                            </Pressable>
+                            <Pressable style={[styles.button, styles.playButton]} onPress={togglePlayPause}>
+                                <Ionicons name={isPlaying ? "pause" : "play"} size={45} color="#fff" />
+                            </Pressable>
+                            <Pressable style={styles.button} onPress={handleSkipForward}>
+                                <Ionicons name="play-skip-forward" size={35} color="#fff" />
+                            </Pressable>
+                        </ThemedView>
+
+
                     </ThemedView>
 
-                    <ThemedView style={styles.buttonContainer}>
-                        <Pressable style={styles.button} onPress={handleSkipBackward}>
-                            <Ionicons name="play-skip-back" size={35} color="#fff" />
-                        </Pressable>
-                        <Pressable style={[styles.button, styles.playButton]} onPress={togglePlayPause}>
-                            <Ionicons name={isPlaying ? "pause" : "play"} size={45} color="#fff" />
-                        </Pressable>
-                        <Pressable style={styles.button} onPress={handleSkipForward}>
-                            <Ionicons name="play-skip-forward" size={35} color="#fff" />
-                        </Pressable>
-                    </ThemedView>
+
+
+
 
                     <ThemedView style={styles.volumeControl}>
                         <Ionicons name="volume-low" size={24} color="#fff" />
@@ -161,9 +169,9 @@ const styles = StyleSheet.create({
     },
     dragHandle: {
         width: 40,
-        height: 4,
-        backgroundColor: 'rgba(255, 255, 255, 0.3)',
-        borderRadius: 2,
+        height: 5,
+        backgroundColor: 'rgba(255, 255, 255, 0.445)',
+        borderRadius: 5,
         alignSelf: 'center',
         marginTop: 10,
     },
@@ -188,7 +196,7 @@ const styles = StyleSheet.create({
         shadowRadius: 12,
         elevation: 12,
         backgroundColor: 'transparent', // Required for Android shadows
-        marginBottom: 40,
+        marginBottom: 34,
     },
     artwork: {
         width: width - 40,
@@ -202,7 +210,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     titleContainer: {
-        marginBottom: 20,
+        // marginBottom: -30,
         backgroundColor: 'transparent',
         width: '100%',
     },
@@ -221,11 +229,12 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 24,
-        marginBottom: 8,
+        // marginBottom: 8,
+        marginBottom: -4,
         color: '#fff',
     },
     artist: {
-        fontSize: 16,
+        fontSize: 18,
         opacity: 0.7,
         color: '#fff',
     },
@@ -234,6 +243,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255, 255, 255, 0.3)',
         borderRadius: 5,
         marginBottom: 10,
+        marginTop: 30,
     },
     progress: {
         width: '30%',
@@ -260,6 +270,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 50,
         backgroundColor: 'transparent',
+        marginTop: 10,
     },
     button: {
         padding: 10,
