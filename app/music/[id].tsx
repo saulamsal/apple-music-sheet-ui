@@ -14,6 +14,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import { songs } from '@/app/data/songs.json';
+import * as Haptics from 'expo-haptics';
 
 const SCALE_FACTOR = 0.83;
 
@@ -23,30 +24,36 @@ export default function MusicScreen() {
     const { setScale } = useRootScale();
     const translateY = useSharedValue(0);
     const isClosing = useRef(false);
-    const statusBarStyle = useSharedValue('light');
+    const statusBarStyle = useSharedValue<'light' | 'dark'>('light');
 
     const numericId = typeof id === 'string' ? parseInt(id, 10) : Array.isArray(id) ? parseInt(id[0], 10) : 0;
     const song = songs.find(s => s.id === numericId) || songs[0];
 
+    const handleHapticFeedback = useCallback(() => {
+        try {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+        } catch (error) {
+            console.log('Haptics not available:', error);
+        }
+    }, []);
+
     const goBack = useCallback(() => {
         if (!isClosing.current) {
             isClosing.current = true;
+            handleHapticFeedback();
             requestAnimationFrame(() => {
                 router.back();
             });
         }
-    }, [router]);
+    }, [router, handleHapticFeedback]);
 
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            setScale(SCALE_FACTOR);
-        }, 0);
-
-        return () => {
-            clearTimeout(timeout);
-            setScale(1);
-        };
-    }, []);
+    const handleScale = useCallback((newScale: number) => {
+        try {
+            setScale(newScale);
+        } catch (error) {
+            console.log('Scale error:', error);
+        }
+    }, [setScale]);
 
     const gesture = Gesture.Pan()
         .onStart(() => {
@@ -59,9 +66,10 @@ export default function MusicScreen() {
                 translateY.value = event.translationY;
                 const progress = Math.min(event.translationY / 600, 1);
                 const newScale = SCALE_FACTOR + (progress * (1 - SCALE_FACTOR));
-                setScale(newScale);
 
-                if (newScale > (1 + SCALE_FACTOR) / 2) {
+                runOnJS(handleScale)(newScale);
+
+                if (progress > 0.5) {
                     statusBarStyle.value = 'dark';
                 } else {
                     statusBarStyle.value = 'light';
@@ -70,16 +78,22 @@ export default function MusicScreen() {
         })
         .onEnd((event) => {
             'worklet';
-            if (event.translationY > 100) {
-                setScale(1);
-                translateY.value = event.translationY;
+            const shouldClose = event.translationY > 100;
+
+            if (shouldClose) {
+                translateY.value = withTiming(event.translationY + 100, {
+                    duration: 300,
+                });
+
+                runOnJS(handleScale)(1);
+                runOnJS(handleHapticFeedback)();
                 runOnJS(goBack)();
             } else {
                 translateY.value = withSpring(0, {
                     damping: 15,
                     stiffness: 150,
                 });
-                setScale(SCALE_FACTOR);
+                runOnJS(handleScale)(SCALE_FACTOR);
             }
         });
 
@@ -87,6 +101,25 @@ export default function MusicScreen() {
         transform: [{ translateY: translateY.value }],
         opacity: withSpring(1),
     }));
+
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            try {
+                setScale(SCALE_FACTOR);
+            } catch (error) {
+                console.log('Initial scale error:', error);
+            }
+        }, 0);
+
+        return () => {
+            clearTimeout(timeout);
+            try {
+                setScale(1);
+            } catch (error) {
+                console.log('Cleanup scale error:', error);
+            }
+        };
+    }, []);
 
     return (
         <ThemedView style={styles.container}>
