@@ -17,6 +17,7 @@ import { songs } from '@/app/data/songs.json';
 import * as Haptics from 'expo-haptics';
 
 const SCALE_FACTOR = 0.83;
+const DRAG_THRESHOLD = 100;
 
 export default function MusicScreen() {
     const { id } = useLocalSearchParams();
@@ -25,6 +26,7 @@ export default function MusicScreen() {
     const translateY = useSharedValue(0);
     const isClosing = useRef(false);
     const statusBarStyle = useSharedValue<'light' | 'dark'>('light');
+    const scrollOffset = useSharedValue(0);
 
     const numericId = typeof id === 'string' ? parseInt(id, 10) : Array.isArray(id) ? parseInt(id[0], 10) : 0;
     const song = songs.find(s => s.id === numericId) || songs[0];
@@ -55,18 +57,19 @@ export default function MusicScreen() {
         }
     }, [setScale]);
 
-    const gesture = Gesture.Pan()
+    const panGesture = Gesture.Pan()
         .onStart(() => {
             'worklet';
-            translateY.value = 0;
+            if (scrollOffset.value <= 0) {
+                translateY.value = 0;
+            }
         })
         .onUpdate((event) => {
             'worklet';
-            if (event.translationY > 0) {
+            if (scrollOffset.value <= 0 && event.translationY > 0) {
                 translateY.value = event.translationY;
                 const progress = Math.min(event.translationY / 600, 1);
                 const newScale = SCALE_FACTOR + (progress * (1 - SCALE_FACTOR));
-
                 runOnJS(handleScale)(newScale);
 
                 if (progress > 0.5) {
@@ -78,24 +81,49 @@ export default function MusicScreen() {
         })
         .onEnd((event) => {
             'worklet';
-            const shouldClose = event.translationY > 100;
+            if (scrollOffset.value <= 0) {
+                const shouldClose = event.translationY > DRAG_THRESHOLD;
 
-            if (shouldClose) {
-                translateY.value = withTiming(event.translationY + 100, {
-                    duration: 300,
-                });
-
-                runOnJS(handleScale)(1);
-                runOnJS(handleHapticFeedback)();
-                runOnJS(goBack)();
-            } else {
-                translateY.value = withSpring(0, {
-                    damping: 15,
-                    stiffness: 150,
-                });
-                runOnJS(handleScale)(SCALE_FACTOR);
+                if (shouldClose) {
+                    translateY.value = withTiming(event.translationY + 100, {
+                        duration: 300,
+                    });
+                    runOnJS(handleScale)(1);
+                    runOnJS(handleHapticFeedback)();
+                    runOnJS(goBack)();
+                } else {
+                    translateY.value = withSpring(0, {
+                        damping: 15,
+                        stiffness: 150,
+                    });
+                    runOnJS(handleScale)(SCALE_FACTOR);
+                }
             }
         });
+
+    const scrollGesture = Gesture.Native()
+        .onBegin(() => {
+            'worklet';
+            translateY.value = 0;
+        });
+
+    const composedGestures = Gesture.Simultaneous(panGesture, scrollGesture);
+
+    const ScrollComponent = useCallback((props: any) => {
+        return (
+            <GestureDetector gesture={composedGestures}>
+                <Animated.ScrollView
+                    {...props}
+                    onScroll={(event) => {
+                        'worklet';
+                        scrollOffset.value = event.nativeEvent.contentOffset.y;
+                        props.onScroll?.(event);
+                    }}
+                    scrollEventThrottle={16}
+                />
+            </GestureDetector>
+        );
+    }, [composedGestures]);
 
     const animatedStyle = useAnimatedStyle(() => ({
         transform: [{ translateY: translateY.value }],
@@ -124,11 +152,9 @@ export default function MusicScreen() {
     return (
         <ThemedView style={styles.container}>
             <StatusBar animated={true} style={statusBarStyle.value} />
-            <GestureDetector gesture={gesture}>
-                <Animated.View style={[styles.modalContent, animatedStyle]}>
-                    <ExpandedPlayer />
-                </Animated.View>
-            </GestureDetector>
+            <Animated.View style={[styles.modalContent, animatedStyle]}>
+                <ExpandedPlayer scrollComponent={ScrollComponent} />
+            </Animated.View>
         </ThemedView>
     );
 }

@@ -32,9 +32,13 @@ function shadeColor(color: string, percent: number): string {
     return "#" + RR + GG + BB;
 }
 
+interface ExpandedPlayerProps {
+    scrollComponent?: (props: any) => React.ReactElement;
+}
 
+export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
+    const ScrollComponentToUse = scrollComponent || ScrollView;
 
-export function ExpandedPlayer() {
     const {
         isPlaying,
         position,
@@ -98,7 +102,7 @@ export function ExpandedPlayer() {
         >
             <ThemedView style={styles.dragHandle} />
 
-            <ScrollView
+            <ScrollComponentToUse
                 style={styles.scrollView}
                 showsVerticalScrollIndicator={false}
             >
@@ -223,7 +227,7 @@ export function ExpandedPlayer() {
                         ))}
                     </ThemedView>
                 </ThemedView>
-            </ScrollView>
+            </ScrollComponentToUse>
         </LinearGradient>
     );
 }
