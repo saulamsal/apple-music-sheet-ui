@@ -22,7 +22,7 @@ export default function TabLayout() {
           }),
           borderTopWidth: 0,
           elevation: 0,
-          height: 90,
+          height: 94,
           paddingTop: 0,
           paddingBottom: 40,
         },
@@ -30,7 +30,7 @@ export default function TabLayout() {
           Platform.OS === 'ios' ? (
             <BlurView
               tint={colorScheme === 'dark' ? 'systemThickMaterialDark' : 'systemThickMaterialLight'}
-              intensity={60}
+              intensity={80}
               style={StyleSheet.absoluteFill}
             />
           ) : null

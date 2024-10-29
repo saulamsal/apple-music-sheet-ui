@@ -13,7 +13,7 @@ export function MiniPlayer({ onPress, song, isPlaying, onPlayPause }: MiniPlayer
     const colorScheme = useColorScheme();
 
     // Calculate bottom position considering tab bar height
-    const bottomPosition = Platform.OS === 'ios' ? insets.bottom + 60 : 60;
+    const bottomPosition = Platform.OS === 'ios' ? insets.bottom + 57 : 60;
 
     return (
         <Pressable onPress={onPress} style={[
