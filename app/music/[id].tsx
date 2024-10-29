@@ -18,6 +18,8 @@ import * as Haptics from 'expo-haptics';
 
 const SCALE_FACTOR = 0.83;
 const DRAG_THRESHOLD = 100;
+const HORIZONTAL_DRAG_THRESHOLD = 50;
+const DIRECTION_LOCK_ANGLE = 45; // Angle in degrees to determine horizontal vs vertical movement
 
 export default function MusicScreen() {
     const { id } = useLocalSearchParams();
@@ -28,6 +30,11 @@ export default function MusicScreen() {
     const statusBarStyle = useSharedValue<'light' | 'dark'>('light');
     const scrollOffset = useSharedValue(0);
     const isDragging = useSharedValue(false);
+    const translateX = useSharedValue(0);
+    const initialGestureX = useSharedValue(0);
+    const initialGestureY = useSharedValue(0);
+    const isHorizontalGesture = useSharedValue(false);
+    const isScrolling = useSharedValue(false);
 
     const numericId = typeof id === 'string' ? parseInt(id, 10) : Array.isArray(id) ? parseInt(id[0], 10) : 0;
     const song = songs.find(s => s.id === numericId) || songs[0];
@@ -58,9 +65,19 @@ export default function MusicScreen() {
         }
     }, [setScale]);
 
+    const calculateGestureAngle = (x: number, y: number) => {
+        'worklet';
+        const angle = Math.abs(Math.atan2(y, x) * (180 / Math.PI));
+        return angle;
+    };
+
     const panGesture = Gesture.Pan()
-        .onStart(() => {
+        .onStart((event) => {
             'worklet';
+            initialGestureX.value = event.x;
+            initialGestureY.value = event.y;
+            isHorizontalGesture.value = false;
+
             if (scrollOffset.value <= 0) {
                 isDragging.value = true;
                 translateY.value = 0;
@@ -68,9 +85,41 @@ export default function MusicScreen() {
         })
         .onUpdate((event) => {
             'worklet';
-            if (scrollOffset.value <= 0 && isDragging.value) {
-                translateY.value = Math.max(0, event.translationY);
-                const progress = Math.min(event.translationY / 600, 1);
+            const dx = event.translationX;
+            const dy = event.translationY;
+            const angle = calculateGestureAngle(dx, dy);
+
+            // Only check for horizontal gesture at the start of the movement
+            if (!isHorizontalGesture.value && !isScrolling.value) {
+                if (Math.abs(dx) > 10) { // Small threshold to prevent accidental triggers
+                    if (angle < DIRECTION_LOCK_ANGLE) {
+                        isHorizontalGesture.value = true;
+                    }
+                }
+            }
+
+            // Handle horizontal gesture - now allows movement in any direction
+            if (isHorizontalGesture.value) {
+                translateX.value = dx;
+                translateY.value = dy; // Allow vertical movement too
+
+                // Calculate progress based on total distance moved
+                const totalDistance = Math.sqrt(dx * dx + dy * dy);
+                const progress = Math.min(totalDistance / 300, 1);
+
+                const newScale = SCALE_FACTOR + (progress * (1 - SCALE_FACTOR));
+                runOnJS(handleScale)(newScale);
+
+                if (progress > 0.2) {
+                    statusBarStyle.value = 'dark';
+                } else {
+                    statusBarStyle.value = 'light';
+                }
+            }
+            // Handle vertical-only gesture
+            else if (scrollOffset.value <= 0 && isDragging.value) {
+                translateY.value = Math.max(0, dy);
+                const progress = Math.min(dy / 600, 1);
                 const newScale = SCALE_FACTOR + (progress * (1 - SCALE_FACTOR));
                 runOnJS(handleScale)(newScale);
 
@@ -84,7 +133,40 @@ export default function MusicScreen() {
         .onEnd((event) => {
             'worklet';
             isDragging.value = false;
-            if (scrollOffset.value <= 0) {
+
+            // Handle horizontal gesture end
+            if (isHorizontalGesture.value) {
+                const dx = event.translationX;
+                const dy = event.translationY;
+                const totalDistance = Math.sqrt(dx * dx + dy * dy);
+                const shouldClose = totalDistance > HORIZONTAL_DRAG_THRESHOLD;
+
+                if (shouldClose) {
+                    // Calculate the exit direction based on the gesture
+                    const exitX = dx * 2;
+                    const exitY = dy * 2;
+
+                    translateX.value = withTiming(exitX, { duration: 300 });
+                    translateY.value = withTiming(exitY, { duration: 300 });
+
+                    runOnJS(handleScale)(1);
+                    runOnJS(handleHapticFeedback)();
+                    runOnJS(goBack)();
+                } else {
+                    // Spring back to original position
+                    translateX.value = withSpring(0, {
+                        damping: 15,
+                        stiffness: 150,
+                    });
+                    translateY.value = withSpring(0, {
+                        damping: 15,
+                        stiffness: 150,
+                    });
+                    runOnJS(handleScale)(SCALE_FACTOR);
+                }
+            }
+            // Handle vertical gesture end (unchanged)
+            else if (scrollOffset.value <= 0) {
                 const shouldClose = event.translationY > DRAG_THRESHOLD;
 
                 if (shouldClose) {
@@ -106,14 +188,20 @@ export default function MusicScreen() {
         .onFinalize(() => {
             'worklet';
             isDragging.value = false;
+            isHorizontalGesture.value = false;
         });
 
     const scrollGesture = Gesture.Native()
         .onBegin(() => {
             'worklet';
+            isScrolling.value = true;
             if (!isDragging.value) {
                 translateY.value = 0;
             }
+        })
+        .onEnd(() => {
+            'worklet';
+            isScrolling.value = false;
         });
 
     const composedGestures = Gesture.Simultaneous(panGesture, scrollGesture);
@@ -142,7 +230,10 @@ export default function MusicScreen() {
     }, [composedGestures]);
 
     const animatedStyle = useAnimatedStyle(() => ({
-        transform: [{ translateY: translateY.value }],
+        transform: [
+            { translateY: translateY.value },
+            { translateX: translateX.value }
+        ],
         opacity: withSpring(1),
     }));
 
