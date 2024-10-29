@@ -17,8 +17,8 @@ import { songs } from '@/app/data/songs.json';
 import * as Haptics from 'expo-haptics';
 
 const SCALE_FACTOR = 0.83;
-const DRAG_THRESHOLD = 100;
-const HORIZONTAL_DRAG_THRESHOLD = 50;
+const DRAG_THRESHOLD = Math.min(Dimensions.get('window').height * 0.20, 150);
+const HORIZONTAL_DRAG_THRESHOLD = Math.min(Dimensions.get('window').width * 0.51, 80);
 const DIRECTION_LOCK_ANGLE = 45; // Angle in degrees to determine horizontal vs vertical movement
 
 export default function MusicScreen() {
