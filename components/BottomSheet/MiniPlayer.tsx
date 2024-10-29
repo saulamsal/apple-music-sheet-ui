@@ -13,7 +13,7 @@ export function MiniPlayer({ onPress, song, isPlaying, onPlayPause }: MiniPlayer
     const colorScheme = useColorScheme();
 
     // Calculate bottom position considering tab bar height
-    const bottomPosition = Platform.OS === 'ios' ? insets.bottom + 44 : 60;
+    const bottomPosition = Platform.OS === 'ios' ? insets.bottom + 60 : 60;
 
     return (
         <Pressable onPress={onPress} style={[
@@ -49,7 +49,7 @@ function MiniPlayerContent({ song, isPlaying, onPlayPause }: {
                 style={styles.artwork}
             />
             <ThemedView style={styles.textContainer}>
-                <ThemedText type="defaultSemiBold">{song.title}</ThemedText>
+                <ThemedText style={styles.title}>{song.title}</ThemedText>
             </ThemedView>
             <ThemedView style={styles.controls}>
                 <Pressable style={styles.controlButton} onPress={onPlayPause}>
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         left: 0,
         right: 0,
-        height: 50,
+        height: 56,
         zIndex: 1000,
         shadowColor: '#000',
         shadowOffset: {
@@ -108,9 +108,12 @@ const styles = StyleSheet.create({
     androidContainer: {
 
     },
+    title: {
+        fontWeight: '500',
+    },
     artwork: {
-        width: 32,
-        height: 32,
+        width: 40,
+        height: 40,
         borderRadius: 8,
     },
     textContainer: {

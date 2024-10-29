@@ -23,8 +23,8 @@ export default function TabLayout() {
           borderTopWidth: 0,
           elevation: 0,
           height: 90,
-          paddingTop: 14,
-          paddingBottom: 30,
+          paddingTop: 0,
+          paddingBottom: 40,
         },
         tabBarBackground: () => (
           Platform.OS === 'ios' ? (
