@@ -146,13 +146,41 @@ export function ExpandedPlayer() {
 
 
 
-                    <ThemedView style={styles.volumeControl}>
-                        <Ionicons name="volume-low" size={24} color="#fff" />
-                        <ThemedView style={styles.volumeBar}>
-                            <ThemedView style={styles.volumeProgress} />
+
+                    <ThemedView>
+                        <ThemedView style={styles.volumeControl}>
+                            <Ionicons name="volume-off" size={24} color="#fff" />
+                            <ThemedView style={styles.volumeBar}>
+                                <ThemedView style={styles.volumeProgress} />
+                            </ThemedView>
+                            <Ionicons name="volume-high" size={24} color="#fff" />
                         </ThemedView>
-                        <Ionicons name="volume-high" size={24} color="#fff" />
+
+
+
+
+
+                        <ThemedView style={styles.extraControls}>
+                            <Pressable style={styles.extraControlButton}>
+                                <Ionicons name="chatbubble-outline" size={24} color="#fff" />
+                            </Pressable>
+
+                            <Pressable style={styles.extraControlButton}>
+                                <ThemedView style={styles.extraControlIcons}>
+                                    <Ionicons name="volume-off" size={26} color="#fff" marginRight={-6} />
+                                    <Ionicons name="bluetooth" size={24} color="#fff" />
+                                </ThemedView>
+                                <ThemedText style={styles.extraControlText}>Px8</ThemedText>
+                            </Pressable>
+
+                            <Pressable style={styles.extraControlButton}>
+                                <Ionicons name="list-outline" size={24} color="#fff" />
+                            </Pressable>
+                        </ThemedView>
                     </ThemedView>
+
+
+
                 </ThemedView>
             </ThemedView>
         </LinearGradient>
@@ -284,7 +312,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 10,
         paddingHorizontal: 10,
-        marginBottom: 20,
+
     },
     volumeBar: {
         flex: 1,
@@ -307,5 +335,32 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(255, 255, 255, 0.2)',
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    extraControls: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        width: '100%',
+        paddingHorizontal: 20,
+        marginTop: 26,
+        backgroundColor: 'transparent',
+
+    },
+    extraControlButton: {
+        alignItems: 'center',
+        // justifyContent: 'center',
+        opacity: 0.8,
+        height: 60,
+    },
+    extraControlText: {
+        color: '#fff',
+        fontSize: 13,
+        marginTop: 6,
+        opacity: 0.7,
+        fontWeight: '600',
+    },
+    extraControlIcons: {
+        flexDirection: 'row',
+
     },
 });
