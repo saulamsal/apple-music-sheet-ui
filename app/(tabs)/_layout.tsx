@@ -5,6 +5,22 @@ import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { BlurView } from 'expo-blur';
 import { Platform, StyleSheet } from 'react-native';
+import { SymbolView } from 'expo-symbols';
+
+// Helper component for cross-platform icons
+function TabIcon({ sfSymbol, ionIcon, color }: { sfSymbol: string; ionIcon: string; color: string }) {
+  if (Platform.OS === 'ios') {
+    return (
+      <SymbolView
+        name={sfSymbol}
+        size={24}
+        tintColor={color}
+        fallback={<TabBarIcon name={ionIcon} color={color} />}
+      />
+    );
+  }
+  return <TabBarIcon name={ionIcon} color={color} />;
+}
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -41,7 +57,11 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="home-sharp" color={color} />
+            <TabIcon
+              sfSymbol="music.note.house"
+              ionIcon="home-sharp"
+              color={color}
+            />
           ),
         }}
       />
@@ -50,7 +70,11 @@ export default function TabLayout() {
         options={{
           title: 'New',
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="apps-sharp" color={color} />
+            <TabIcon
+              sfSymbol="square.grid.2x2.fill"
+              ionIcon="apps-sharp"
+              color={color}
+            />
           ),
         }}
       />
@@ -59,7 +83,11 @@ export default function TabLayout() {
         options={{
           title: 'Radio',
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="radio-outline" color={color} />
+            <TabIcon
+              sfSymbol="dot.radiowaves.left.and.right"
+              ionIcon="radio-outline"
+              color={color}
+            />
           ),
         }}
       />
@@ -68,7 +96,11 @@ export default function TabLayout() {
         options={{
           title: 'Library',
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="musical-notes" color={color} />
+            <TabIcon
+              sfSymbol="music.note.list"
+              ionIcon="musical-notes"
+              color={color}
+            />
           ),
         }}
       />
@@ -77,10 +109,13 @@ export default function TabLayout() {
         options={{
           title: 'Search',
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="search" color={color} />
+            <TabIcon
+              sfSymbol="magnifyingglass"
+              ionIcon="search"
+              color={color}
+            />
           ),
         }}
-
       />
     </Tabs>
   );

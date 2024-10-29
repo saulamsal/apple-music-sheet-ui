@@ -9,6 +9,13 @@ This project demonstrates an implementation of the Apple Music player UI in Reac
 - 👆 Interactive pan gesture handling
 - 📱 iOS-style sheet presentation
 - 🎨 Dynamic border radius animations
+- 🌟 Visual audio visualizer
+- 💫 Haptic feedback on modal interactions
+- 🖼️ Blur effects and backdrop filters
+- 📱 Sticky mini-player navigation
+- 📋 Apple Music style track listing
+- ⚡ Gesture handling with drag thresholds
+- 🔄 Horizontal swipe to dismiss
 
 ## Tech Stack
 
@@ -39,10 +46,14 @@ This project demonstrates an implementation of the Apple Music player UI in Reac
 
 The project showcases several key features of modern React Native development:
 
-- Shared element transitions
-- Gesture-based interactions
+- Shared element transitions between mini and full player
+- Gesture-based interactions with multi-axis support
 - Context-based animation state management
 - Worklet-based animations for optimal performance
+
+### Known Issues
+
+- Horizontal drag gesture conflicts with content scrolling when the modal is partially scrolled, causing flickering. This needs to be addressed by properly managing gesture priorities and scroll state.
 
 ## Project Structure
 
