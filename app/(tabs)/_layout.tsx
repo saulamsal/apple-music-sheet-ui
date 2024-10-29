@@ -9,16 +9,16 @@ import { SymbolView } from 'expo-symbols';
 
 // Helper component for cross-platform icons
 function TabIcon({ sfSymbol, ionIcon, color }: { sfSymbol: string; ionIcon: string; color: string }) {
-  if (Platform.OS === 'ios') {
-    return (
-      <SymbolView
-        name={sfSymbol}
-        size={24}
-        tintColor={color}
-        fallback={<TabBarIcon name={ionIcon} color={color} />}
-      />
-    );
-  }
+  // if (Platform.OS === 'ios') {
+  //   return (
+  //     <SymbolView
+  //       name={sfSymbol}
+  //       size={24}
+  //       tintColor={color}
+  //       fallback={<TabBarIcon name={ionIcon} color={color} />}
+  //     />
+  //   );
+  // }
   return <TabBarIcon name={ionIcon} color={color} />;
 }
 
