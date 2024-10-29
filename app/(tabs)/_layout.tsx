@@ -22,14 +22,15 @@ export default function TabLayout() {
           }),
           borderTopWidth: 0,
           elevation: 0,
-          height: 80,
+          height: 90,
+          paddingTop: 14,
           paddingBottom: 30,
         },
         tabBarBackground: () => (
           Platform.OS === 'ios' ? (
             <BlurView
-              tint={colorScheme === 'dark' ? 'dark' : 'light'}
-              intensity={80}
+              tint={colorScheme === 'dark' ? 'systemThickMaterialDark' : 'systemThickMaterialLight'}
+              intensity={60}
               style={StyleSheet.absoluteFill}
             />
           ) : null

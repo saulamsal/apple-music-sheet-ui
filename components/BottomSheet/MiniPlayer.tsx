@@ -5,36 +5,61 @@ import { Ionicons } from '@expo/vector-icons';
 import { Audio } from 'expo-av';
 import { useState, useEffect } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { BlurView } from 'expo-blur';
+import { useColorScheme } from '@/hooks/useColorScheme';
 
 export function MiniPlayer({ onPress, song, isPlaying, onPlayPause }: MiniPlayerProps) {
     const insets = useSafeAreaInsets();
+    const colorScheme = useColorScheme();
 
     // Calculate bottom position considering tab bar height
-    const bottomPosition = Platform.OS === 'ios' ? 90 : 60; // Adjust these values based on your tab bar height
+    const bottomPosition = Platform.OS === 'ios' ? insets.bottom + 44 : 60;
 
     return (
         <Pressable onPress={onPress} style={[
             styles.container,
             { bottom: bottomPosition }
         ]}>
-            <ThemedView style={styles.content}>
-                <Image
-                    source={{ uri: song.artwork }}
-                    style={styles.artwork}
-                />
-                <ThemedView style={styles.textContainer}>
-                    <ThemedText type="defaultSemiBold">{song.title}</ThemedText>
+            {Platform.OS === 'ios' ? (
+                <BlurView
+                    tint={colorScheme === 'dark' ? 'systemThickMaterialDark' : 'systemThickMaterialLight'}
+                    intensity={95}
+                    style={[styles.content, styles.blurContainer]}>
+                    <MiniPlayerContent song={song} isPlaying={isPlaying} onPlayPause={onPlayPause} />
+                </BlurView>
+            ) : (
+                <ThemedView style={[styles.content, styles.androidContainer]}>
+                    <MiniPlayerContent song={song} isPlaying={isPlaying} onPlayPause={onPlayPause} />
                 </ThemedView>
-                <ThemedView style={styles.controls}>
-                    <Pressable style={styles.controlButton} onPress={onPlayPause}>
-                        <Ionicons name={isPlaying ? "pause" : "play"} size={24} />
-                    </Pressable>
-                    <Pressable style={styles.controlButton}>
-                        <Ionicons name="play-forward" size={24} />
-                    </Pressable>
-                </ThemedView>
-            </ThemedView>
+            )}
         </Pressable>
+    );
+}
+
+// Extract the content into a separate component for reusability
+function MiniPlayerContent({ song, isPlaying, onPlayPause }: {
+    song: any;
+    isPlaying: boolean;
+    onPlayPause: () => void;
+}) {
+    return (
+        <ThemedView style={styles.miniPlayerContent}>
+            <Image
+                source={{ uri: song.artwork }}
+                style={styles.artwork}
+            />
+            <ThemedView style={styles.textContainer}>
+                <ThemedText type="defaultSemiBold">{song.title}</ThemedText>
+            </ThemedView>
+            <ThemedView style={styles.controls}>
+                <Pressable style={styles.controlButton} onPress={onPlayPause}>
+                    <Ionicons name={isPlaying ? "pause" : "play"} size={24} />
+                </Pressable>
+                <Pressable style={styles.controlButton}>
+                    <Ionicons name="play-forward" size={24} />
+                </Pressable>
+            </ThemedView>
+        </ThemedView>
     );
 }
 
@@ -43,15 +68,8 @@ const styles = StyleSheet.create({
         position: 'absolute',
         left: 0,
         right: 0,
-        height: 65,
-        zIndex: 1000, // Make sure it's above other content
-    },
-    content: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        padding: 8,
-        height: '100%',
-        backgroundColor: 'rgba(255,255,255,0.98)',
+        height: 50,
+        zIndex: 1000,
         shadowColor: '#000',
         shadowOffset: {
             width: 0,
@@ -60,23 +78,52 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.15,
         shadowRadius: 8,
         elevation: 5,
+
+    },
+    content: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        // height: 40,
         marginHorizontal: 10,
         borderRadius: 12,
+        overflow: 'hidden',
+        zIndex: 1000,
+        flex: 1,
+        paddingVertical: 0,
+
+
+    },
+    miniPlayerContent: {
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        height: '100%',
+        paddingHorizontal: 10,
+        backgroundColor: '#ffffffa4',
+
+    },
+    blurContainer: {
+        // backgroundColor: '#00000000',
+    },
+    androidContainer: {
+
     },
     artwork: {
-        width: 48,
-        height: 48,
+        width: 32,
+        height: 32,
         borderRadius: 8,
     },
     textContainer: {
         flex: 1,
         marginLeft: 12,
+        backgroundColor: 'transparent',
     },
     controls: {
         flexDirection: 'row',
         alignItems: 'center',
         gap: 4,
         marginRight: 4,
+        backgroundColor: 'transparent',
     },
     controlButton: {
         padding: 8,
