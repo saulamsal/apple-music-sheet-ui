@@ -132,7 +132,10 @@ export default function MusicScreen() {
                         props.onScroll?.(event);
                     }}
                     scrollEventThrottle={16}
-                    bounces={scrollOffset.value <= 0 && !isDragging.value}
+                    // bounces={scrollOffset.value >= 0 && !isDragging.value}
+                    bounces={false}
+
+
                 />
             </GestureDetector>
         );

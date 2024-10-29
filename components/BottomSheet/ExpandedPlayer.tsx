@@ -100,7 +100,9 @@ export function ExpandedPlayer({ scrollComponent }: ExpandedPlayerProps) {
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
         >
-            <ThemedView style={styles.dragHandle} />
+            <ThemedView style={styles.dragHandleContainer}>
+                <ThemedView style={styles.dragHandle} />
+            </ThemedView>
 
             <ScrollComponentToUse
                 style={styles.scrollView}
@@ -428,5 +430,8 @@ const styles = StyleSheet.create({
     },
     lyricsSpacing: {
         marginVertical: 10,
+    },
+    dragHandleContainer: {
+        paddingBottom: 14,
     },
 });
