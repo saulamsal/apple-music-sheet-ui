@@ -10,6 +10,7 @@ export default function SearchStack() {
                     headerLargeTitle: true,
                     headerLargeTitleStyle: { fontWeight: 'bold' },
                     title: "Search",
+                    headerShadowVisible: false,
                     headerStyle: {
 
                     },
