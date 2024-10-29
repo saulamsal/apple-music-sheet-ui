@@ -23,8 +23,10 @@ export default function MusicScreen() {
     const router = useRouter();
     const { setScale } = useRootScale();
     const translateY = useSharedValue(0);
+    const translateX = useSharedValue(0);
     const isClosing = useRef(false);
     const statusBarStyle = useSharedValue<'light' | 'dark'>('light');
+    const scale = useSharedValue(1);
 
     const numericId = typeof id === 'string' ? parseInt(id, 10) : Array.isArray(id) ? parseInt(id[0], 10) : 0;
     const song = songs.find(s => s.id === numericId) || songs[0];
@@ -59,29 +61,43 @@ export default function MusicScreen() {
         .onStart(() => {
             'worklet';
             translateY.value = 0;
+            translateX.value = 0;
         })
         .onUpdate((event) => {
             'worklet';
-            if (event.translationY > 0) {
-                translateY.value = event.translationY;
-                const progress = Math.min(event.translationY / 600, 1);
-                const newScale = SCALE_FACTOR + (progress * (1 - SCALE_FACTOR));
+            translateY.value = event.translationY;
+            translateX.value = event.translationX * 0.8;
 
-                runOnJS(handleScale)(newScale);
+            const distance = Math.sqrt(
+                event.translationX * event.translationX +
+                event.translationY * event.translationY
+            );
 
-                if (progress > 0.5) {
-                    statusBarStyle.value = 'dark';
-                } else {
-                    statusBarStyle.value = 'light';
-                }
+            const progress = Math.min(distance / 600, 1);
+            const newScale = SCALE_FACTOR + (progress * (1 - SCALE_FACTOR));
+
+            runOnJS(handleScale)(newScale);
+
+            if (progress > 0.5) {
+                statusBarStyle.value = 'dark';
+            } else {
+                statusBarStyle.value = 'light';
             }
         })
         .onEnd((event) => {
             'worklet';
-            const shouldClose = event.translationY > 100;
+            const distance = Math.sqrt(
+                event.translationX * event.translationX +
+                event.translationY * event.translationY
+            );
+
+            const shouldClose = distance > 100;
 
             if (shouldClose) {
                 translateY.value = withTiming(event.translationY + 100, {
+                    duration: 300,
+                });
+                translateX.value = withTiming(event.translationX + 100, {
                     duration: 300,
                 });
 
@@ -93,12 +109,19 @@ export default function MusicScreen() {
                     damping: 15,
                     stiffness: 150,
                 });
+                translateX.value = withSpring(0, {
+                    damping: 15,
+                    stiffness: 150,
+                });
                 runOnJS(handleScale)(SCALE_FACTOR);
             }
         });
 
     const animatedStyle = useAnimatedStyle(() => ({
-        transform: [{ translateY: translateY.value }],
+        transform: [
+            { translateY: translateY.value },
+            { translateX: translateX.value },
+        ],
         opacity: withSpring(1),
     }));
 
