@@ -199,8 +199,8 @@ const styles = StyleSheet.create({
         marginBottom: 34,
     },
     artwork: {
-        width: width - 40,
-        height: width - 40,
+        width: width - 52,
+        height: width - 52,
         borderRadius: 8,
     },
     controls: {
@@ -213,6 +213,7 @@ const styles = StyleSheet.create({
         // marginBottom: -30,
         backgroundColor: 'transparent',
         width: '100%',
+        marginTop: 12
     },
     titleRow: {
         flexDirection: 'row',
@@ -228,13 +229,13 @@ const styles = StyleSheet.create({
         gap: 15,
     },
     title: {
-        fontSize: 24,
+        fontSize: 21,
         // marginBottom: 8,
         marginBottom: -4,
         color: '#fff',
     },
     artist: {
-        fontSize: 18,
+        fontSize: 19,
         opacity: 0.7,
         color: '#fff',
     },
@@ -287,15 +288,17 @@ const styles = StyleSheet.create({
     },
     volumeBar: {
         flex: 1,
-        height: 3,
+        height: 6,
         backgroundColor: 'rgba(255, 255, 255, 0.3)',
-        borderRadius: 1.5,
+        borderRadius: 20,
     },
     volumeProgress: {
         width: '70%',
         height: '100%',
         backgroundColor: '#fff',
-        borderRadius: 1.5,
+        borderRadius: 10,
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0,
     },
     iconButton: {
         width: 32,
