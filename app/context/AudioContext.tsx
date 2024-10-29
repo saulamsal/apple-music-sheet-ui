@@ -44,6 +44,22 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         };
     }, []);
 
+    useEffect(() => {
+        const setupAudio = async () => {
+            try {
+                await Audio.setAudioModeAsync({
+                    playsInSilentModeIOS: true,
+                    staysActiveInBackground: true,
+                    shouldDuckAndroid: true,
+                });
+            } catch (error) {
+                console.error('Error setting up audio mode:', error);
+            }
+        };
+
+        setupAudio();
+    }, []);
+
     const playSound = async (song: Song) => {
         try {
             // If there's already a sound playing, stop it
@@ -84,13 +100,19 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
         }
     };
 
-    const onPlaybackStatusUpdate = (status: any) => {
-        if (status.isLoaded) {
-            setPosition(status.positionMillis);
-            setDuration(status.durationMillis || 0);
-            setIsPlaying(status.isPlaying);
+    const onPlaybackStatusUpdate = useCallback(async (status: Audio.PlaybackStatus) => {
+        if (!status.isLoaded) return;
+
+        setPosition(status.positionMillis);
+        setDuration(status.durationMillis || 0);
+        setIsPlaying(status.isPlaying);
+
+        // Check if the song has finished and isn't already loading the next song
+        if (status.didJustFinish && !status.isPlaying) {
+            console.log('Song finished, playing next song'); // Debug log
+            await playNextSong();
         }
-    };
+    }, [playNextSong]);
 
     const playNextSong = useCallback(async () => {
         const currentIndex = songs.findIndex(song => song.id === currentSong?.id);
