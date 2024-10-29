@@ -2,6 +2,7 @@ import { View, Text, ScrollView, TextInput, StyleSheet } from 'react-native';
 import React from 'react';
 import { CategoryCard } from '@/components/CategoryCard';
 import { Ionicons } from '@expo/vector-icons';
+import { ThemedText } from '@/components/ThemedText';
 
 const categories = [
     {
@@ -257,7 +258,7 @@ export default function SearchScreen() {
             style={styles.container}
             contentInsetAdjustmentBehavior="automatic"
         >
-            <Text style={styles.title}>Browse Categories</Text>
+            <ThemedText style={styles.title}>Browse Categories</ThemedText>
             <View style={styles.categoriesContainer}>
                 {categories.map((category, index) => (
                     <View key={index} style={styles.categoryWrapper}>
@@ -282,7 +283,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        // backgroundColor: '#fff',
     },
     categoriesContainer: {
         flexDirection: 'row',

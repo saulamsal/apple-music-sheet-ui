@@ -9,6 +9,7 @@ import { ThemedView } from '@/components/ThemedView';
 import { songs } from '@/app/data/songs.json';
 import { useAudio } from '@/app/context/AudioContext';
 import { MusicVisualizer } from '@/components/MusicVisualizer';
+import { useColorScheme } from '@/hooks/useColorScheme';
 
 interface Song {
   id: string;
@@ -20,6 +21,7 @@ interface Song {
 export default function HomeScreen() {
   const router = useRouter();
   const { currentSong, playSound, isPlaying, togglePlayPause } = useAudio();
+  const colorScheme = useColorScheme();
 
   const handlePlayFirst = () => {
     playSound(songs[0]);
@@ -45,7 +47,12 @@ export default function HomeScreen() {
         )}
       </View>
 
-      <ThemedView style={styles.songInfoContainer}>
+      <ThemedView
+        style={[
+          styles.songInfoContainer,
+          { borderBottomColor: colorScheme === 'light' ? '#ababab' : '#535353' },
+        ]}
+      >
         <ThemedView style={styles.songInfo}>
           <ThemedText type="defaultSemiBold" numberOfLines={1} style={styles.songTitle}>
             {item.title}
@@ -245,8 +252,6 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 4,
     flexDirection: 'row',
-    // backgroundColor: 'red',
-    borderBottomColor: '#ababab',
     borderBottomWidth: StyleSheet.hairlineWidth,
     paddingBottom: 14,
     paddingRight: 14

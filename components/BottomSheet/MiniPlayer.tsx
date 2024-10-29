@@ -24,7 +24,7 @@ export function MiniPlayer({ onPress, song, isPlaying, onPlayPause }: MiniPlayer
             {Platform.OS === 'ios' ? (
                 <BlurView
                     tint={colorScheme === 'dark' ? 'systemThickMaterialDark' : 'systemThickMaterialLight'}
-                    intensity={95}
+                    intensity={80}
                     style={[styles.content, styles.blurContainer]}>
                     <MiniPlayerContent song={song} isPlaying={isPlaying} onPlayPause={onPlayPause} />
                 </BlurView>
@@ -43,10 +43,11 @@ function MiniPlayerContent({ song, isPlaying, onPlayPause }: {
     isPlaying: boolean;
     onPlayPause: () => void;
 }) {
+    const colorScheme = useColorScheme();
     const { playNextSong } = useAudio();
 
     return (
-        <ThemedView style={styles.miniPlayerContent}>
+        <ThemedView style={[styles.miniPlayerContent, { backgroundColor: colorScheme === 'light' ? '#ffffffa4' : 'transparent' }]}>
             <Image
                 source={{ uri: song.artwork }}
                 style={styles.artwork}
@@ -56,10 +57,10 @@ function MiniPlayerContent({ song, isPlaying, onPlayPause }: {
             </ThemedView>
             <ThemedView style={styles.controls}>
                 <Pressable style={styles.controlButton} onPress={onPlayPause}>
-                    <Ionicons name={isPlaying ? "pause" : "play"} size={24} />
+                    <Ionicons name={isPlaying ? "pause" : "play"} size={24} color={colorScheme === 'light' ? '#000' : '#fff'} />
                 </Pressable>
                 <Pressable style={styles.controlButton} onPress={playNextSong}>
-                    <Ionicons name="play-forward" size={24} />
+                    <Ionicons name="play-forward" size={24} color={colorScheme === 'light' ? '#000' : '#fff'} />
                 </Pressable>
             </ThemedView>
         </ThemedView>
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: '100%',
         paddingHorizontal: 10,
-        backgroundColor: '#ffffffa4',
+        // backgroundColor: '#ffffffa4',
 
     },
     blurContainer: {

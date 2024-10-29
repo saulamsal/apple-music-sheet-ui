@@ -46,16 +46,21 @@ function AnimatedStack() {
           />
           <Stack.Screen name="+not-found" />
         </Stack>
+
+
+        {currentSong && (
+          <MiniPlayer
+            song={currentSong}
+            isPlaying={isPlaying}
+            onPlayPause={togglePlayPause}
+            onPress={() => router.push(`/music/${currentSong.id}`)}
+          />
+        )}
+
+
       </Animated.View>
 
-      {currentSong && (
-        <MiniPlayer
-          song={currentSong}
-          isPlaying={isPlaying}
-          onPlayPause={togglePlayPause}
-          onPress={() => router.push(`/music/${currentSong.id}`)}
-        />
-      )}
+      {/* putting anything here is not scalled down upon modal open */}
     </View>
   );
 }
