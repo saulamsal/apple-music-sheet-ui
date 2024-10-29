@@ -20,6 +20,7 @@ const SCALE_FACTOR = 0.83;
 const DRAG_THRESHOLD = Math.min(Dimensions.get('window').height * 0.20, 150);
 const HORIZONTAL_DRAG_THRESHOLD = Math.min(Dimensions.get('window').width * 0.51, 80);
 const DIRECTION_LOCK_ANGLE = 45; // Angle in degrees to determine horizontal vs vertical movement
+const ENABLE_HORIZONTAL_DRAG_CLOSE = false;
 
 export default function MusicScreen() {
     const { id } = useLocalSearchParams();
@@ -89,21 +90,20 @@ export default function MusicScreen() {
             const dy = event.translationY;
             const angle = calculateGestureAngle(dx, dy);
 
-            // Only check for horizontal gesture at the start of the movement
-            if (!isHorizontalGesture.value && !isScrolling.value) {
-                if (Math.abs(dx) > 10) { // Small threshold to prevent accidental triggers
+            // Only check for horizontal gesture if enabled
+            if (ENABLE_HORIZONTAL_DRAG_CLOSE && !isHorizontalGesture.value && !isScrolling.value) {
+                if (Math.abs(dx) > 10) {
                     if (angle < DIRECTION_LOCK_ANGLE) {
                         isHorizontalGesture.value = true;
                     }
                 }
             }
 
-            // Handle horizontal gesture - now allows movement in any direction
-            if (isHorizontalGesture.value) {
+            // Handle horizontal gesture only if enabled
+            if (ENABLE_HORIZONTAL_DRAG_CLOSE && isHorizontalGesture.value) {
                 translateX.value = dx;
-                translateY.value = dy; // Allow vertical movement too
+                translateY.value = dy;
 
-                // Calculate progress based on total distance moved
                 const totalDistance = Math.sqrt(dx * dx + dy * dy);
                 const progress = Math.min(totalDistance / 300, 1);
 
@@ -134,8 +134,8 @@ export default function MusicScreen() {
             'worklet';
             isDragging.value = false;
 
-            // Handle horizontal gesture end
-            if (isHorizontalGesture.value) {
+            // Handle horizontal gesture end only if enabled
+            if (ENABLE_HORIZONTAL_DRAG_CLOSE && isHorizontalGesture.value) {
                 const dx = event.translationX;
                 const dy = event.translationY;
                 const totalDistance = Math.sqrt(dx * dx + dy * dy);
@@ -165,7 +165,7 @@ export default function MusicScreen() {
                     runOnJS(handleScale)(SCALE_FACTOR);
                 }
             }
-            // Handle vertical gesture end (unchanged)
+            // Handle vertical gesture end
             else if (scrollOffset.value <= 0) {
                 const shouldClose = event.translationY > DRAG_THRESHOLD;
 
