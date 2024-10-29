@@ -80,6 +80,7 @@ export default function TabLayout() {
             <TabBarIcon name="search" color={color} />
           ),
         }}
+
       />
     </Tabs>
   );

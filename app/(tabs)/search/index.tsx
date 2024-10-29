@@ -253,21 +253,11 @@ const categories = [
 
 export default function SearchScreen() {
     return (
-        <ScrollView style={styles.container}>
-            <Text style={styles.title}>Search</Text>
-
-            <View style={styles.searchContainer}>
-                <Ionicons name="search" size={20} color="#666" style={styles.searchIcon} />
-                <TextInput
-                    style={styles.searchInput}
-                    placeholder="Artists, Songs, Lyrics, and More"
-                    placeholderTextColor="#666"
-                />
-                <Ionicons name="mic" size={20} color="#666" style={styles.micIcon} />
-            </View>
-
-            <Text style={styles.sectionTitle}>Browse Categories</Text>
-
+        <ScrollView
+            style={styles.container}
+            contentInsetAdjustmentBehavior="automatic"
+        >
+            <Text style={styles.title}>Browse Categories</Text>
             <View style={styles.categoriesContainer}>
                 {categories.map((category, index) => (
                     <View key={index} style={styles.categoryWrapper}>
@@ -284,46 +274,21 @@ export default function SearchScreen() {
 }
 
 const styles = StyleSheet.create({
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginHorizontal: 16,
+        marginTop: 16,
+    },
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        padding: 16,
-    },
-    title: {
-        fontSize: 34,
-        fontWeight: 'bold',
-        marginTop: 60,
-        marginBottom: 20,
-    },
-    searchContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: '#f2f2f2',
-        borderRadius: 10,
-        padding: 12,
-        marginBottom: 32,
-    },
-    searchInput: {
-        flex: 1,
-        fontSize: 16,
-        marginLeft: 8,
-        color: '#000',
-    },
-    searchIcon: {
-        marginLeft: 4,
-    },
-    micIcon: {
-        marginRight: 4,
-    },
-    sectionTitle: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 16,
     },
     categoriesContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
         gap: 12,
+        padding: 16,
     },
     categoryWrapper: {
         width: '48%',
