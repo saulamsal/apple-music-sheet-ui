@@ -60,15 +60,35 @@ The project showcases several key features of modern React Native development:
 ## Project Structure
 
 ```
-app/
-├── contexts/
-│   └── RootScaleContext.tsx    # Scale animation context
+project-root/
+├── app/
+│   ├── (tabs)/
+│   │   ├── search/            # Search and library screens
+│   │   │   ├── _layout.tsx
+│   │   │   ├── library.tsx
+│   │   │   ├── new.tsx
+│   │   │   └── radio.tsx
+│   │   ├── music/             # Music player routes
+│   │   │   ├── [id].tsx
+│   │   │   └── _layout.tsx
+│   │   └── _layout.tsx        # Tab navigation layout
 ├── components/
-│   └── BottomSheet/
-│       ├── ExpandedPlayer.tsx  # Full-screen player
-│       └── MiniPlayer.tsx      # Minimized player
-└── music/
-    └── [id].tsx               # Music player screen
+│   ├── navigation/
+│   │   └── TabBarIcon.tsx     # Tab bar icons
+│   ├── Overlay/               # Sheet UI components
+│   │   ├── OverlayContext.tsx
+│   │   ├── OverlayProvider.tsx
+│   │   └── ThemedView.tsx
+│   └── ThemedText.tsx
+├── contexts/
+│   ├── AudioContext.tsx       # Audio playback state
+│   └── RootScaleContext.tsx   # Scale animation state
+├── constants/
+│   └── Colors.ts             # Theme colors
+└── hooks/                    # Custom React hooks
+    ├── useColorScheme.ts
+    ├── useThemeColor.ts
+    └── useColorScheme.web.ts
 ```
 
 ## Contributing
