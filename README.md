@@ -2,6 +2,8 @@
 
 This project demonstrates an implementation of the Apple Music player UI in React Native using Expo, with a focus on replicating the smooth sheet transitions and scaling animations.
 
+![Demo](assets/gifs/demo1.gif)
+
 ## Features
 
 - 🎵 Full-screen music player modal with gesture controls
