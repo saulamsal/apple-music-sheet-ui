@@ -3,15 +3,15 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { StyleSheet, useColorScheme, View } from 'react-native';
-import { RootScaleProvider } from '@/app/contexts/RootScaleContext';
-import { useRootScale } from '@/app/contexts/RootScaleContext';
+import { RootScaleProvider } from '@/contexts/RootScaleContext';
+import { useRootScale } from '@/contexts/RootScaleContext';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { OverlayProvider } from '@/app/components/Overlay/OverlayProvider';
-import { AudioProvider } from '@/app/context/AudioContext';
+import { OverlayProvider } from '@/components/Overlay/OverlayProvider';
+import { AudioProvider } from '@/contexts/AudioContext';
 import { MiniPlayer } from '@/components/BottomSheet/MiniPlayer';
 import { useRouter } from 'expo-router';
-import { useAudio } from '@/app/context/AudioContext';
+import { useAudio } from '@/contexts/AudioContext';
 
 function AnimatedStack() {
   const { scale } = useRootScale();

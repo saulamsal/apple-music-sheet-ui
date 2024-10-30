@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { Audio } from 'expo-av';
-import { songs } from '@/app/data/songs.json';
+import { songs } from '@/data/songs.json';
 
 interface Song {
     id: number;

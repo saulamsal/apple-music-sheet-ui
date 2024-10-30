@@ -6,7 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { Audio } from 'expo-av';
 import { useEffect, useState, useCallback } from 'react';
-import { useAudio } from '@/app/context/AudioContext';
+import { useAudio } from '@/contexts/AudioContext';
 const { width } = Dimensions.get('window');
 import {
     useSafeAreaInsets,

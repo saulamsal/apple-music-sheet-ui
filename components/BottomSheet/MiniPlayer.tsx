@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { useAudio } from '@/app/context/AudioContext';
+import { useAudio } from '@/contexts/AudioContext';
 
 export function MiniPlayer({ onPress, song, isPlaying, onPlayPause }: MiniPlayerProps) {
     const insets = useSafeAreaInsets();

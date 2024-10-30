@@ -4,7 +4,7 @@ import { useEffect, useCallback, useRef } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { ThemedView } from '@/components/ThemedView';
 import { ExpandedPlayer } from '@/components/BottomSheet/ExpandedPlayer';
-import { useRootScale } from '@/app/contexts/RootScaleContext';
+import { useRootScale } from '@/contexts/RootScaleContext';
 import Animated, {
     useSharedValue,
     useAnimatedStyle,
@@ -13,7 +13,7 @@ import Animated, {
     runOnJS,
 } from 'react-native-reanimated';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
-import { songs } from '@/app/data/songs.json';
+import { songs } from '@/data/songs.json';
 import * as Haptics from 'expo-haptics';
 
 const SCALE_FACTOR = 0.83;

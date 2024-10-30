@@ -6,8 +6,8 @@ import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import { songs } from '@/app/data/songs.json';
-import { useAudio } from '@/app/context/AudioContext';
+import { songs } from '@/data/songs.json';
+import { useAudio } from '@/contexts/AudioContext';
 import { MusicVisualizer } from '@/components/MusicVisualizer';
 import { useColorScheme } from '@/hooks/useColorScheme';
 

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { useOverlay } from '@/app/components/Overlay/OverlayContext';
+import { useOverlay } from '@/components/Overlay/OverlayContext';
 
 export const useOverlayView = () => {
     const { addOverlay, removeOverlay } = useOverlay();
